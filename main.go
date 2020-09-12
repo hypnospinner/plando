@@ -1,16 +1,27 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+  "net/http"
+  "github.com/labstack/echo/v4"
+  "github.com/labstack/echo/v4/middleware"
 )
 
-// http api "Hello, World!" sample
-
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
-	})
+  // Echo instance
+  e := echo.New()
 
-	http.ListenAndServe(":80", nil)
+  // Middleware
+  e.Use(middleware.Logger())
+  e.Use(middleware.Recover())
+
+  // Routes
+  e.GET("/", hello)
+
+  // Start server
+  e.Logger.Fatal(e.Start(":1323"))
+}
+
+// Handler
+func hello(c echo.Context) error {
+  return c.String(http.StatusOK, "Hello, World!")
 }
