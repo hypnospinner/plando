@@ -1,28 +1,20 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
+	"os"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/hypnospinner/plando/v1/config"
 )
 
 func main() {
-	// Echo instance
-	e := echo.New()
+	var config config.AppConfig
 
-	// Middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	os.Setenv("ENV", "test")
+	defer os.Unsetenv("ENV")
 
-	// Routes
-	e.GET("/", hello)
+	config.ReadConfigurationFile("./config/")
 
-	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
-}
+	fmt.Println(config)
 
-// Handler
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
 }
