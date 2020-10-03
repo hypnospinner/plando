@@ -16,3 +16,6 @@
 
 # Local wiji repo ignore
 plando.wiki
+
+# debug.log file which sometimes appears on Windows systems
+debug.log
