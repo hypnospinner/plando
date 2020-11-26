@@ -8,15 +8,31 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@types/react-redux": "^7.1.11",
+    "antd": "^4.8.0",
+    "module-alias": "^2.2.2",
     "next": "latest",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@types/node": "^12.12.21",
-    "@types/react": "^16.9.16",
-    "@types/react-dom": "^16.9.4",
-    "typescript": "4.0"
+    "@types/node": "^12.19.3",
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-import-resolver-webpack": "^0.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "husky": "^4.3.0",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.5"
   },
   "license": "MIT"
 }
