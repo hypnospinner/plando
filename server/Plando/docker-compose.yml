@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    ports:
+      - "5434:1433"
+    environment:
+        SA_PASSWORD: "plando_password"
+        ACCEPT_EULA: "Y"
