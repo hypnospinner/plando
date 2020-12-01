@@ -1,4 +1,5 @@
 using System.Linq;
+using Plando.Models.Users;
 
 namespace Plando.Models
 {
@@ -19,13 +20,20 @@ namespace Plando.Models
                 var administrator = new User
                 {
                     Email = "admin@plando.com",
-                    Password = "ASDqwe!@#",
                     FirstName = "Admin",
                     LastName = "Admin",
+                };
+
+                var administratorIdentity = new Identity
+                {
+                    Email = administrator.Email,
+                    Password = "ASDqwe!@#",
                     Role = UserRole.Administrator
                 };
 
                 context.Users.Add(administrator);
+                context.Identities.Add(administratorIdentity);
+
                 context.SaveChanges();
             }
 

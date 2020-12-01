@@ -17,7 +17,9 @@ namespace Plando.Router
                     afterDispatch: async (command, context) =>
                     {
                         await context.Response.Created($"users/{command.Id}");
-                    })
+                    },
+                    auth: true,
+                    roles: "Administrator")
                 // delete one user by id
                 .Delete<DeleteUser>("users/{Id}",
                 afterDispatch: async (command, context) =>

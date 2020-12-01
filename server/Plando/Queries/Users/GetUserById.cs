@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Convey.CQRS.Queries;
+using Plando.Common;
 using Plando.DTOs;
 using Plando.Models;
 
@@ -10,14 +11,9 @@ namespace Plando.Queries.Users
         public int Id { get; set; }
     }
 
-    public class GetUserByIdHandler : IQueryHandler<GetUserById, UserDTO>
+    public class GetUserByIdHandler : HandlerWithApplicationContext, IQueryHandler<GetUserById, UserDTO>
     {
-        private readonly ApplicationContext _context;
-
-        public GetUserByIdHandler(ApplicationContext context)
-        {
-            _context = context;
-        }
+        public GetUserByIdHandler(ApplicationContext context) : base(context) { }
 
         public async Task<UserDTO> HandleAsync(GetUserById query)
         {

@@ -1,4 +1,4 @@
-namespace Plando.Models
+namespace Plando.Models.Users
 {
     public enum UserRole
     {

@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Convey.CQRS.Commands;
+using Microsoft.EntityFrameworkCore;
+using Plando.Common;
 using Plando.Models;
+using Plando.Models.Users;
 
 namespace Plando.Commands.Users
 {
@@ -10,24 +13,28 @@ namespace Plando.Commands.Users
         public int Id { get; set; }
     }
 
-    public class DeleteUserHandler : ICommandHandler<DeleteUser>
+    public class DeleteUserHandler : HandlerWithApplicationContext, ICommandHandler<DeleteUser>
     {
-        private readonly ApplicationContext _context;
-
-        public DeleteUserHandler(ApplicationContext context)
-        {
-            _context = context;
-        }
+        public DeleteUserHandler(ApplicationContext context) : base(context) { }
 
         public async Task HandleAsync(DeleteUser command)
         {
-            var user = await _context.Users.FindAsync(command.Id);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Id == command.Id);
+
+            if (user is null)
+                throw new Exception("Cannot delete user that does not exist");
+
+            var identity = await _context
+                .Identities.FirstOrDefaultAsync(x => x.Email == user.Email);
 
             // we can't delete administrator using API
-            if (user.Role is UserRole.Administrator)
+            if (identity.Role is UserRole.Administrator)
                 throw new Exception("Cannot delete administrator");
 
             _context.Users.Remove(user);
+            _context.Identities.Remove(identity);
+
             await _context.SaveChangesAsync();
         }
     }

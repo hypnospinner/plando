@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Plando.Models
+namespace Plando.Models.Users
 {
     public class User
     {
@@ -9,8 +9,5 @@ namespace Plando.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        // public string Salt { get; set; }
-        public UserRole Role { get; set; }
     }
 }

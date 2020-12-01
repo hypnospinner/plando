@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Convey.CQRS.Commands;
+using Plando.Common;
 using Plando.Models;
+using Plando.Models.Users;
 
 namespace Plando.Commands.Users
 {
@@ -13,14 +15,9 @@ namespace Plando.Commands.Users
         public string LastName { get; set; }
     }
 
-    public class CreateUserHandler : ICommandHandler<CreateUser>
+    public class CreateUserHandler : HandlerWithApplicationContext, ICommandHandler<CreateUser>
     {
-        private readonly ApplicationContext _context;
-
-        public CreateUserHandler(ApplicationContext context)
-        {
-            _context = context;
-        }
+        public CreateUserHandler(ApplicationContext context) : base(context) { }
 
         public async Task HandleAsync(CreateUser command)
         {
@@ -29,14 +26,21 @@ namespace Plando.Commands.Users
                 FirstName = command.FirstName,
                 LastName = command.LastName,
                 Email = command.Email,
+            };
+
+            var identity = new Identity()
+            {
+                Email = command.Email,
                 Password = command.Password,
                 Role = UserRole.Client
             };
 
-            _context.Users.Add(user);
-            var id = await _context.SaveChangesAsync();
+            var entry = _context.Users.Add(user);
+            _context.Identities.Add(identity);
 
-            command.Id = id;
+            await _context.SaveChangesAsync();
+
+            command.Id = entry.Entity.Id;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Convey.CQRS.Queries;
 using Microsoft.EntityFrameworkCore;
+using Plando.Common;
 using Plando.DTOs;
 using Plando.Models;
 
@@ -14,14 +15,9 @@ namespace Plando.Queries.Users
         public int PerPage { get; set; } = 20;
     }
 
-    public class GetAllUsersHandler : IQueryHandler<GetAllUsers, IEnumerable<UserDTO>>
+    public class GetAllUsersHandler : HandlerWithApplicationContext, IQueryHandler<GetAllUsers, IEnumerable<UserDTO>>
     {
-        private readonly ApplicationContext _context;
-
-        public GetAllUsersHandler(ApplicationContext context)
-        {
-            _context = context;
-        }
+        public GetAllUsersHandler(ApplicationContext context) : base(context) { }
 
         public async Task<IEnumerable<UserDTO>> HandleAsync(GetAllUsers query)
         {

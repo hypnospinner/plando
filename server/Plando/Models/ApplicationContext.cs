@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Plando.Models.Laundries;
 using Plando.Models.Orders;
 using Plando.Models.Services;
+using Plando.Models.Users;
 
 namespace Plando.Models
 {
@@ -13,6 +14,7 @@ namespace Plando.Models
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Identity> Identities { get; set; }
         public DbSet<Laundry> Laundries { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceAvailability> ServiceAvailabilities { get; set; }
