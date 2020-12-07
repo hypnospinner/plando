@@ -8,7 +8,25 @@ namespace Plando.Models.Orders
 
         public Order Push(Order aggregate)
         {
-            throw new System.NotImplementedException();
+            if (aggregate is null)
+            {
+                return null;
+            }
+            else
+            {
+                aggregate.Id = OrderId;
+                aggregate.Status = OrderStatus.FINISHED;
+                aggregate.Price = 0;
+                foreach(ServiceInOrder item in aggregate.Services)
+                {
+                    aggregate.Price += item.Price
+                }
+
+                return aggregate;
+
+            }
+
+
         }
     }
 }
