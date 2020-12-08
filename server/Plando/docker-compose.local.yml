@@ -1,15 +1,9 @@
 version: "3.8"
 services:
-  web:
-    build: .
-    ports:
-      - "8000:80"
-    depends_on:
-      - db
-    environment: 
-      ENVIRONMENT: "production"
   db:
     image: "mcr.microsoft.com/mssql/server"
+    ports: 
+      - "1433:1433"
     environment:
       SA_PASSWORD: "plando_password"
       ACCEPT_EULA: "Y"

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-
+    
 namespace Plando.Models.Laundries
 {
     public class Laundry

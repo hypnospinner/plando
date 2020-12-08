@@ -24,6 +24,15 @@ namespace Plando
 {
     public static class Program
     {
+        private const string PROD = "production";
+        private class DBConfig
+        {
+            public string Server { get; set; }
+            public string Database { get; set; }
+            public string User { get; set; }
+            public string Password { get; set; }
+            public string ConnectionString => $"Server={Server};Database={Database};User={User};Password={Password};";
+        }
         public static void Main(string[] args)
         {
             var host = GetWebHostBuilder(args).Build();
@@ -55,10 +64,23 @@ namespace Plando
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetSection("db")["connectionString"];
+            var env = (Environment.GetEnvironmentVariable("ENVIRONMENT"));
 
-            return services.AddDbContext<ApplicationContext>(
-                options => options.UseSqlite(connectionString));
+            if (env is PROD)
+            {
+                var dbConfig = new DBConfig();
+                configuration.Bind("mssqldb", dbConfig);
+
+                return services.AddDbContext<ApplicationContext>(
+                    options => options.UseSqlServer(dbConfig.ConnectionString));
+            }
+            else
+            {
+                var connectionString = configuration.GetSection("db")["connectionString"];
+
+                return services.AddDbContext<ApplicationContext>(
+                    options => options.UseSqlite(connectionString));
+            }
         }
 
         private static void CreateDbIfNotExists(IWebHost host)
