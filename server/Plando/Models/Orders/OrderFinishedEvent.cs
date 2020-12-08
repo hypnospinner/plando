@@ -1,3 +1,4 @@
+using System.Linq;
 using Plando.Common;
 
 namespace Plando.Models.Orders
@@ -9,22 +10,16 @@ namespace Plando.Models.Orders
         public Order Push(Order aggregate)
         {
             if (aggregate is null)
-            {
                 return null;
-            }
-            else
-            {
-                aggregate.Id = OrderId;
-                aggregate.Status = OrderStatus.FINISHED;
-                aggregate.Price = 0;
-                foreach (ServiceInOrder item in aggregate.Services)
-                    aggregate.Price += item.Price;
 
-                return aggregate;
+            aggregate.Id = OrderId;
+            aggregate.Status = OrderStatus.FINISHED;
+            aggregate.Price = 0;
+            
+            foreach (ServiceInOrder item in aggregate.Services)
+                aggregate.Price += item.Price;
 
-            }
-
-
+            return aggregate;
         }
     }
 }
