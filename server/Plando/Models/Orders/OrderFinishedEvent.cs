@@ -17,10 +17,8 @@ namespace Plando.Models.Orders
                 aggregate.Id = OrderId;
                 aggregate.Status = OrderStatus.FINISHED;
                 aggregate.Price = 0;
-                foreach(ServiceInOrder item in aggregate.Services)
-                {
-                    aggregate.Price += item.Price
-                }
+                foreach (ServiceInOrder item in aggregate.Services)
+                    aggregate.Price += item.Price;
 
                 return aggregate;
 
