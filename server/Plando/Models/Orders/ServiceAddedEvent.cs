@@ -9,7 +9,13 @@ namespace Plando.Models.Orders
 
         public Order Push(Order aggregate)
         {
-            throw new System.NotImplementedException();
+            if (aggregate is null)
+                return null;
+            
+            aggregate.Id = OrderId;
+            //aggregate.Services.Add()
+            
+            
         }
     }
 }
