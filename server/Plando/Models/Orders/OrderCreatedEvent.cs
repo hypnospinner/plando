@@ -8,7 +8,9 @@ namespace Plando.Models.Orders
         public int ClientId { get; set; }
         public int LaundryId { get; set; }
         public string Title { get; set; }
-
+        public OrderPassedEvent OrderPassedEvent { get; set; }
+        public OrderFinishedEvent OrderFinishedEvent { get; set; }
+        public IList<ServiceAddedEvent> ServiceAddedEvents { get; set; }
         public Order Push(Order aggregate)
         {
             aggregate.Id = Id;

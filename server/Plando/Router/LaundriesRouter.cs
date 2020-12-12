@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using Convey.WebApi;
 using Convey.WebApi.CQRS;
-using Plando.Commands.Users;
-using Plando.DTOs;
-using Plando.Queries.Users;
+using Plando.Commands.Laundries;
 
 namespace Plando.Router
 {
@@ -18,7 +15,7 @@ namespace Plando.Router
                 {
                     await context.Response.Created($"laundries/{command.Id}");
 
-                };)
+                })
             .Delete<DeleteLaundry>(
                 path: "laundries/{Id}",
                 afterDispatch: async (command, context) =>
@@ -28,6 +25,6 @@ namespace Plando.Router
                     {
                         id = command.Id
                     });
-                };)
+                });
     }
 }

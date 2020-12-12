@@ -13,6 +13,11 @@ namespace Plando.Models
             Database.EnsureCreated();
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Identity> Identities { get; set; }
         public DbSet<Laundry> Laundries { get; set; }
