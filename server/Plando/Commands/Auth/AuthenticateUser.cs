@@ -30,7 +30,7 @@ namespace Plando.Commands.Auth
         public async Task HandleAsync(AuthenticateUser command)
         {
             var identity = await _context.Identities
-                .FirstOrDefaultAsync(x => x.Email == command.Email);
+                .SingleOrDefaultAsync(x => x.Email == command.Email);
 
 
             if (identity is null)
@@ -40,7 +40,7 @@ namespace Plando.Commands.Auth
                 throw new Exception($"Invalid password for {identity.Email}");
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(x => x.Email == command.Email);
+                .SingleOrDefaultAsync(x => x.Email == command.Email);
 
             var token = _jwtHandler.CreateToken(
                 userId: user.Id.ToString(),
