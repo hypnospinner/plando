@@ -8,9 +8,8 @@ namespace Plando.Models.Orders
     {
         public int ServiceId { get; set; }
         public int OrderId { get; set; }
-        public OrderCreatedEvent OrderCreatedEvent { get; set; }
-        public Service Service { get; set; }
-        public Order Order { get; set; }
+        // public OrderCreatedEvent OrderCreatedEvent { get; set; }
+        // public Service Service { get; set; }
         public Order Push(Order aggregate)
         {
             if (aggregate is null)

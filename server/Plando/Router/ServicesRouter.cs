@@ -4,7 +4,7 @@ namespace Plando.Router
 {
     public static class ServicesRouter
     {
-        public static IDispatcherEndpointsBuilder AddServicesRouter(this IDispatcherEndpointsBuilder endpoints)
+        internal static IDispatcherEndpointsBuilder AddServicesRouter(this IDispatcherEndpointsBuilder endpoints)
             => endpoints;
     }
 }

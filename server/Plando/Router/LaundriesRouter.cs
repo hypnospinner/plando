@@ -4,7 +4,7 @@ using Plando.Commands.Laundries;
 
 namespace Plando.Router
 {
-    public static class LaundriesRouter
+    internal static class LaundriesRouter
     {
         public static IDispatcherEndpointsBuilder AddLaundriesRouter(this IDispatcherEndpointsBuilder endpoints)
             => endpoints

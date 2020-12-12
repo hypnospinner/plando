@@ -6,10 +6,8 @@ using Convey.CQRS.Events;
 using Convey.CQRS.Queries;
 using Convey.Docs.Swagger;
 using Convey.WebApi;
-using Convey.WebApi.CQRS;
 using Convey.WebApi.Swagger;
 using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,21 +23,12 @@ namespace Plando
     public static class Program
     {
         private const string PROD = "production";
-        private class DBConfig
-        {
-            public string Server { get; set; }
-            public string Database { get; set; }
-            public string User { get; set; }
-            public string Password { get; set; }
-            public string ConnectionString => $"Server={Server};Database={Database};User={User};Password={Password};";
-        }
         public static void Main(string[] args)
         {
-            var host = GetWebHostBuilder(args).Build();
-
-            CreateDbIfNotExists(host);
-
-            host.Run();
+            GetWebHostBuilder(args)
+                .Build()
+                .CreateDatabaseIfNotExists()
+                .Run();
         }
 
         public static IWebHostBuilder GetWebHostBuilder(string[] args)
@@ -47,16 +36,20 @@ namespace Plando
             return WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices((context, services) => services
                     .AddDatabase(context.Configuration)
-                    .AddGoogleAuthentication()
                     .AddConvey()
-                    .AddCQRS()
+                    .AddCommandHandlers()
+                    .AddQueryHandlers()
+                    .AddEventHandlers()
+                    .AddInMemoryCommandDispatcher()
+                    .AddInMemoryQueryDispatcher()
+                    .AddInMemoryEventDispatcher()
                     .AddWebApi()
                     .AddSwaggerDocs()
                     .AddWebApiSwaggerDocs()
+                    .AddJwt()
                     .Build())
                 .Configure(app => app
                     .UseAuthentication()
-                    .UseAuthorization()
                     .UseConvey()
                     .UseRoutes()
                     .UseSwaggerDocs());
@@ -68,7 +61,7 @@ namespace Plando
 
             if (env is PROD)
             {
-                var dbConfig = new DBConfig();
+                var dbConfig = new ApplicationContextConfig();
                 configuration.Bind("mssqldb", dbConfig);
 
                 return services.AddDbContext<ApplicationContext>(
@@ -83,7 +76,7 @@ namespace Plando
             }
         }
 
-        private static void CreateDbIfNotExists(IWebHost host)
+        private static IWebHost CreateDatabaseIfNotExists(this IWebHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -95,38 +88,8 @@ namespace Plando
                 }
                 catch (Exception ex) { Console.WriteLine(ex); }
             }
-        }
 
-        private static IApplicationBuilder UseRoutes(this IApplicationBuilder app) =>
-            app.UseDispatcherEndpoints(endpoints => endpoints
-                .AddUserRouter()
-                .AddOrdersRouter()
-                .AddServicesRouter()
-                .AddLaundriesRouter()
-                .AddAuthRouter());
-
-        private static IConveyBuilder AddCQRS(this IConveyBuilder builder) =>
-            builder.AddCommandHandlers()
-                .AddQueryHandlers()
-                .AddEventHandlers()
-                .AddInMemoryCommandDispatcher()
-                .AddInMemoryQueryDispatcher()
-                .AddInMemoryEventDispatcher();
-
-        private static IServiceCollection AddGoogleAuthentication(this IServiceCollection services)
-        {
-            services
-                .AddAuthentication(options =>
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                    options.LoginPath = "/account/google-login")
-                .AddGoogle(options =>
-                    (options.ClientId,
-                    options.ClientSecret) =
-                    ("426075564145-b2g0u99p7utdgsjril2qa8vd6sk0u2hj.apps.googleusercontent.com",
-                    "s127voGZoRqZ3PGl_7Xa1pL6"));
-
-            return services;
+            return host;
         }
     }
 }

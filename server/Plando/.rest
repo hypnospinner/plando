@@ -1,0 +1,57 @@
+@url = https://localhost:5001
+@admin_token = bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidW5pcXVlX25hbWUiOiIxIiwianRpIjoiNzJmZGI0N2QtMGZhYS00MTQyLWFlYmYtZmE5MjY2ZmI4YTRmIiwiaWF0IjoiMTYwNzc4MjgzMCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJuYmYiOjE2MDc3ODI4MzAsImV4cCI6MTYwNzc4MzEzMCwiaXNzIjoicGxhbmRvX2lzc3VlciJ9.9fIUixFOBjkMIdZ5Xg1EqlpsnOp8goYr2nQR4U1cXa8
+
+###
+
+POST {{url}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Ilya",
+    "secondName": "Katun",
+    "email": "ilya.katun@mail.com",
+    "password": "123QWEasd!"
+}
+
+###
+
+POST {{url}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "ilya.katun@mail.com",
+    "password": "123QWEasd!"
+}
+
+###
+
+POST {{url}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "admin@plando.com",
+    "password": "ASDqwe!@#"
+}
+
+###
+
+POST {{url}}/register/manager HTTP/1.1
+Content-Type: application/json
+Authorization: {{admin_token}}
+
+{
+    "firstName": "Viktoria",
+    "secondName": "Dzuba",
+    "email": "d.vik@mail.com",
+    "password": "123QWEasd!"
+}
+
+###
+
+POST {{url}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "d.vik@mail.com",
+    "password": "123QWEasd!"
+}

@@ -7,7 +7,7 @@ using Plando.Queries.Users;
 
 namespace Plando.Router
 {
-    public static class UsersRouter
+    internal static class UsersRouter
     {
         public static IDispatcherEndpointsBuilder AddUserRouter(this IDispatcherEndpointsBuilder endpoints)
             => endpoints

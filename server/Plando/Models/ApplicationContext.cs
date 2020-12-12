@@ -15,7 +15,19 @@ namespace Plando.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder
+                .Entity<OrderCreatedEvent>()
+                .HasOne<OrderPassedEvent>(x => x.OrderPassedEvent)
+                .WithOne(x => x.OrderCreatedEvent)
+                .HasForeignKey<OrderPassedEvent>(x => x.OrderId);
+
+            modelBuilder
+                .Entity<OrderCreatedEvent>()
+                .HasOne<OrderFinishedEvent>(x => x.OrderFinishedEvent)
+                .WithOne(x => x.OrderCreatedEvent)
+                .HasForeignKey<OrderFinishedEvent>(x => x.OrderId);
+
+
         }
 
         public DbSet<User> Users { get; set; }
