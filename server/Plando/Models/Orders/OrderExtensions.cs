@@ -12,28 +12,34 @@ namespace Plando.Models.Orders
         public static async Task<Order> GetOrderAsync(this ApplicationContext context, int id)
         {
             var orderCreatedEvent = await context.OrderCreatedEvents
-                .FirstOrDefaultAsync(x => x.Id == id) as IAggregator<Order>;
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == id) as IAggregator<Order>;
 
             if (orderCreatedEvent is null)
                 return null;
 
             var orderPassedEvent = await context.OrderPassedEvents
-                .FirstOrDefaultAsync(x => x.OrderId == id) as IAggregator<Order>;
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.OrderId == id) as IAggregator<Order>;
 
             var orderFinishedEvent = await context.OrderFinishedEvents
-                .FirstOrDefaultAsync(x => x.OrderId == id) as IAggregator<Order>;
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.OrderId == id) as IAggregator<Order>;
 
             var serviceAddedEvents = context.ServiceAddedEvents
+                .AsNoTracking()
                 .Where(x => x.OrderId == id)
                 .Select(x => x as IAggregator<Order>)
                 .AsEnumerable();
 
             var serviceCompletedEvents = context.ServiceCompletedEvents
+                .AsNoTracking()
                 .Where(x => x.OrderId == id)
                 .Select(x => x as IAggregator<Order>)
                 .AsEnumerable();
 
             var serviceRemovedEvents = context.ServiceAddedEvents
+                .AsNoTracking()
                 .Where(x => x.OrderId == id)
                 .Select(x => x as IAggregator<Order>)
                 .AsEnumerable();
@@ -53,6 +59,7 @@ namespace Plando.Models.Orders
         public static async Task<IEnumerable<Order>> GetOrdersAsync(this ApplicationContext context, int page = 0, int perPage = 20)
         {
             var orderCreatedEvents = await context.OrderCreatedEvents
+                .AsNoTracking()
                 .OrderBy(x => x.CreatedAt)
                 .Skip(page * perPage)
                 .Take(perPage)

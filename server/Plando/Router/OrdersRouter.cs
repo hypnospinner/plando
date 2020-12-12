@@ -3,7 +3,6 @@ using Convey.WebApi;
 using Convey.WebApi.CQRS;
 using Plando.Commands.Order;
 using Plando.DTOs;
-using Plando.Queries.Order;
 
 namespace Plando.Router
 {
