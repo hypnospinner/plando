@@ -9,11 +9,7 @@ using Plando.Models;
 
 namespace Plando.Queries.Users
 {
-    public class GetAllUsers : IQuery<IEnumerable<UserDTO>>
-    {
-        public int Page { get; set; } = 0;
-        public int PerPage { get; set; } = 20;
-    }
+    public class GetAllUsers : PaginatedQuery, IQuery<IEnumerable<UserDTO>> { }
 
     public class GetAllUsersHandler : HandlerWithApplicationContext, IQueryHandler<GetAllUsers, IEnumerable<UserDTO>>
     {
