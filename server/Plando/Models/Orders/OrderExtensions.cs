@@ -9,7 +9,7 @@ namespace Plando.Models.Orders
     public static class OrdersExtensions
     {
         // context.GetOrder(id)
-        public static async Task<Order> GetOrder(this ApplicationContext context, int id)
+        public static async Task<Order> GetOrderAsync(this ApplicationContext context, int id)
         {
             var orderCreatedEvent = await context.OrderCreatedEvents
                 .FirstOrDefaultAsync(x => x.Id == id) as IAggregator<Order>;
@@ -48,6 +48,23 @@ namespace Plando.Models.Orders
             aggregates.AddRange(serviceCompletedEvents);
 
             return aggregates.Aggregate();
+        }
+
+        public static async Task<IEnumerable<Order>> GetOrdersAsync(this ApplicationContext context, int page = 0, int perPage = 20)
+        {
+            var orderCreatedEvents = await context.OrderCreatedEvents
+                .OrderBy(x => x.CreatedAt)
+                .Skip(page * perPage)
+                .Take(perPage)
+                .ToListAsync();
+
+            var tasks = orderCreatedEvents
+                .Select(x => context.GetOrderAsync(x.Id))
+                .ToArray();
+
+            Task.WaitAll(tasks);
+
+            return tasks.Select(x => x.Result);
         }
     }
 }

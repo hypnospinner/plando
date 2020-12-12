@@ -3,7 +3,7 @@ using Convey.CQRS.Commands;
 using Plando.Common;
 using Plando.Models;
 using Plando.Models.Laundries;
-using Plando.Models.Users;
+
 
 namespace Plando.Commands.Laundries
 {

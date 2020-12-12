@@ -18,7 +18,7 @@ namespace Plando.Commands.Laundries
         public async Task HandleAsync(DeleteLaundry command)
         {
             var laundry = await _context.Laundries
-                .FirstOrDefaultAsync(x => x.Id == command.Id);
+                .SingleOrDefaultAsync(x => x.Id == command.Id);
 
             if (laundry is null)
                 throw new Exception("Cannot delete this laundry: it does not exist");
