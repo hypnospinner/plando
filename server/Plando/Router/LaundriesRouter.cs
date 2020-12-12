@@ -1,6 +1,10 @@
+using System.Collections.Generic;
 using Convey.WebApi;
 using Convey.WebApi.CQRS;
 using Plando.Commands.Laundries;
+using Plando.DTOs;
+using Plando.Queries.Laundries;
+
 
 namespace Plando.Router
 {
@@ -25,6 +29,9 @@ namespace Plando.Router
                     {
                         id = command.Id
                     });
-                });
+                })
+            .Get<GetAllLaundries, IEnumerable<LaundryDTO>>("laundries")
+            .Get<GetLaundryById, LaundryDTO>("laundries/{id}");
+
     }
 }
