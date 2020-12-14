@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Convey.WebApi;
 using Convey.WebApi.CQRS;
-using Plando.Commands.Order;
+using Plando.Commands.Orders;
 using Plando.DTOs;
 using Plando.Models.Orders;
 using Plando.Queries.Orders;
