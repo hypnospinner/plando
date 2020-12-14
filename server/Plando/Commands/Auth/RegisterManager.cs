@@ -18,36 +18,27 @@ namespace Plando.Commands.Auth
 
         public async Task HandleAsync(RegisterManager command)
         {
-            var user = _context.Users.Add(new User()
+            var user = new User
             {
                 FirstName = command.FirstName,
                 LastName = command.LastName,
                 Email = command.Email,
-            });
+            };
 
-            _context.Identities.Add(new Identity()
+            var identity = new Identity
             {
                 Email = command.Email,
-                Password = command.Password,
-                Role = UserRole.Manager
-            });
+                Password = command.Password
+            };
 
-            if (command.LaundryId is -1)
-            {
-                await _context.SaveChangesAsync();
-                return;
-            }
+            if (command.LaundryId != -1)
+                if (await _context.Laundries.AnyAsync(x => x.Id == command.LaundryId))
+                    user.LaundryId = command.LaundryId;
 
-            var laundry = await _context.Laundries.FirstOrDefaultAsync(x => x.Id == command.LaundryId);
+            var savedUser = _context.Users.Add(user);
+            identity.UserId = savedUser.Entity.Id;
 
-            if (laundry is null)
-            {
-                // log that we can't bind manager to non existing laundry
-            }
-
-            laundry.ManagerId = user.Entity.Id;
-
-            _context.Laundries.Update(laundry);
+            _context.Identities.Add(identity);
             await _context.SaveChangesAsync();
         }
     }

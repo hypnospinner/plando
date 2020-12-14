@@ -14,8 +14,6 @@
     <PackageReference Include="Convey.WebApi" Version="0.4.403" />
     <PackageReference Include="Convey.WebApi.CQRS" Version="0.4.403" />
     <PackageReference Include="Convey.WebApi.Swagger" Version="0.4.403" />
-    <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.49.0.1869" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

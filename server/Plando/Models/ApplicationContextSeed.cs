@@ -17,22 +17,24 @@ namespace Plando.Models
         {
             if (!context.Users.Any())
             {
-                var administrator = new User
+                var identity = new Identity
                 {
+                    UserId = 1,
+                    Email = "admin@plando.com",
+                    Password = "ASDqwe!@#",
+                    Role = UserRole.Administrator,
+                };
+
+                var user = new User
+                {
+                    Id = 1,
                     Email = "admin@plando.com",
                     FirstName = "Admin",
-                    LastName = "Admin",
+                    LastName = "Admin"
                 };
 
-                var administratorIdentity = new Identity
-                {
-                    Email = administrator.Email,
-                    Password = "ASDqwe!@#",
-                    Role = UserRole.Administrator
-                };
-
-                context.Users.Add(administrator);
-                context.Identities.Add(administratorIdentity);
+                context.Identities.Add(identity);
+                context.Users.Add(user);
 
                 context.SaveChanges();
             }

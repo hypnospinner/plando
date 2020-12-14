@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Plando.Models.Services;
 using Plando.Models.Users;
 
 namespace Plando.Models.Laundries
@@ -9,6 +11,7 @@ namespace Plando.Models.Laundries
         public int Id { get; set; }
         public string Address { get; set; }
         public int ManagerId { get; set; }
-        public User Manager { get; set; }
+        public ICollection<LaundryService> Services { get; set; }
+        public ICollection<User> Managers { get; set; }
     }
 }

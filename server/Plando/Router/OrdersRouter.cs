@@ -11,12 +11,11 @@ namespace Plando.Router
     internal static class OrdersRouter
     {
         public static IDispatcherEndpointsBuilder AddOrdersRouter(this IDispatcherEndpointsBuilder endpoints)
-            => endpoints
-        .Post<CreateOrder>(
-            path: "orders",
-            afterDispatch: (command, context) => context.Response.Created($"orders/{command.Id}"))
+            => endpoints;
+        // .Post<CreateOrder>(
+        //     path: "order",
+        //     afterDispatch: (command, context) => context.Response.Created($"orders/{command.Id}"))
         // .Get<GetAllOrders, IEnumerable<Order>>(
         //     path: "orders/get");
-        ;
     }
 }

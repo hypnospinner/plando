@@ -7,6 +7,7 @@ using Convey.CQRS.Queries;
 using Convey.Docs.Swagger;
 using Convey.WebApi;
 using Convey.WebApi.Swagger;
+using Convey.WebApi.Exceptions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Plando.Models;
 using Plando.Router;
+using Plando.Common;
 
 namespace Plando
 {
@@ -44,6 +46,7 @@ namespace Plando
                     .AddInMemoryQueryDispatcher()
                     .AddInMemoryEventDispatcher()
                     .AddWebApi()
+                    .AddErrorHandler<ExceptionToResponseMapper>()
                     .AddSwaggerDocs()
                     .AddWebApiSwaggerDocs()
                     .AddJwt()

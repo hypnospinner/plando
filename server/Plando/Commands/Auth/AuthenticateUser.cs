@@ -32,18 +32,14 @@ namespace Plando.Commands.Auth
             var identity = await _context.Identities
                 .SingleOrDefaultAsync(x => x.Email == command.Email);
 
-
             if (identity is null)
                 throw new Exception($"No user with email: {command.Email} found");
 
             if ((identity.Email, identity.Password) != (command.Email, command.Password))
                 throw new Exception($"Invalid password for {identity.Email}");
 
-            var user = await _context.Users
-                .SingleOrDefaultAsync(x => x.Email == command.Email);
-
             var token = _jwtHandler.CreateToken(
-                userId: user.Id.ToString(),
+                userId: identity.UserId.ToString(),
                 role: identity.Role.ToString());
 
             command.Token = token.AccessToken;
