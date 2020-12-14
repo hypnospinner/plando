@@ -7,8 +7,7 @@ namespace Plando.Models.Orders
     {
         public int ServiceId { get; set; }
         public int OrderId { get; set; }
-
-
+        public OrderCreatedEvent OrderCreatedEvent { get; set; }
         public Order Push(Order aggregate)
         {
             throw new System.NotImplementedException();

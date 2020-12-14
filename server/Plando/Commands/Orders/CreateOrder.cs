@@ -8,6 +8,7 @@ using Plando.Models.Users;
 namespace Plando.Commands.Order
 {
     public class CreateOrder : OrderCreatedEvent, ICommand { }
+
     public class CreateOrderHandler : HandlerWithApplicationContext, ICommandHandler<CreateOrder>
     {
         public CreateOrderHandler(ApplicationContext context) : base(context) { }

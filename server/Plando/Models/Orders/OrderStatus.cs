@@ -2,8 +2,9 @@ namespace Plando.Models.Orders
 {
     public enum OrderStatus
     {
-        NEW,        // created but being in process
-        PASSED,     // in process
-        FINISHED    // finished
+        NEW,            // created
+        IN_PROCESS,     // laundry is processing order
+        FINISHED,       // laundry finished order
+        PASSED,         // client picked order from laundry
     }
 }

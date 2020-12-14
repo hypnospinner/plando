@@ -16,6 +16,10 @@ namespace Plando.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
+                .Entity<LaundryEmployee>()
+                .HasKey(x => new { x.LaundryId, x.ManagerId });
+
+            modelBuilder
                 .Entity<OrderCreatedEvent>()
                 .HasOne<OrderPassedEvent>(x => x.OrderPassedEvent)
                 .WithOne(x => x.OrderCreatedEvent)
@@ -27,12 +31,29 @@ namespace Plando.Models
                 .WithOne(x => x.OrderCreatedEvent)
                 .HasForeignKey<OrderFinishedEvent>(x => x.OrderId);
 
+            modelBuilder
+                .Entity<ServiceAddedEvent>()
+                .HasOne<OrderCreatedEvent>(x => x.OrderCreatedEvent)
+                .WithMany(x => x.ServiceAddedEvents)
+                .HasForeignKey(x => x.OrderId);
 
+            modelBuilder
+                .Entity<ServiceRemovedEvent>()
+                .HasOne<OrderCreatedEvent>(x => x.OrderCreatedEvent)
+                .WithMany(x => x.ServiceRemovedEvents)
+                .HasForeignKey(x => x.OrderId);
+
+            modelBuilder
+                .Entity<ServiceCompletedEvent>()
+                .HasOne<OrderCreatedEvent>(x => x.OrderCreatedEvent)
+                .WithMany(x => x.ServiceCompletedEvents)
+                .HasForeignKey(x => x.OrderId);
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Identity> Identities { get; set; }
         public DbSet<Laundry> Laundries { get; set; }
+        public DbSet<LaundryEmployee> LaundryEmployees { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceAvailability> ServiceAvailabilities { get; set; }
         public DbSet<ServiceAddedEvent> ServiceAddedEvents { get; set; }

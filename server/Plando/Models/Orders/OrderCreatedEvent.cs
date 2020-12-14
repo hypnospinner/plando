@@ -10,7 +10,9 @@ namespace Plando.Models.Orders
         public string Title { get; set; }
         public OrderPassedEvent OrderPassedEvent { get; set; }
         public OrderFinishedEvent OrderFinishedEvent { get; set; }
-        // public IList<ServiceAddedEvent> ServiceAddedEvents { get; set; }
+        public ICollection<ServiceAddedEvent> ServiceAddedEvents { get; set; }
+        public ICollection<ServiceRemovedEvent> ServiceRemovedEvents { get; set; }
+        public ICollection<ServiceCompletedEvent> ServiceCompletedEvents { get; set; }
         public Order Push(Order aggregate)
         {
             aggregate.Id = Id;

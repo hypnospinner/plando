@@ -10,16 +10,16 @@ namespace Plando.Router
         public static IDispatcherEndpointsBuilder AddAuthRouter(this IDispatcherEndpointsBuilder endpoints)
             => endpoints
                 .Post<AuthenticateUser>(
-                    path: "login",
+                    path: "auth/login",
                     afterDispatch: (command, context) =>
                         command.Token is null ?
                         context.Response.Forbidden() :
                         context.Response.Ok(command.Token))
                 .Post<RegisterUser>(
-                    path: "register"
+                    path: "auth/register"
                 )
                 .Post<RegisterManager>(
-                    path: "register/manager",
+                    path: "auth/register/manager",
                     auth: true,
                     roles: UserRole.Administrator.ToString()
                 );
