@@ -23,22 +23,19 @@ namespace Plando.Commands.Auth
                 FirstName = command.FirstName,
                 LastName = command.LastName,
                 Email = command.Email,
-            };
-
-            var identity = new Identity
-            {
-                Email = command.Email,
-                Password = command.Password
+                Identity = new Identity
+                {
+                    Email = command.Email,
+                    Password = command.Password,
+                    Role = UserRole.Manager,
+                }
             };
 
             if (command.LaundryId != -1)
                 if (await _context.Laundries.AnyAsync(x => x.Id == command.LaundryId))
                     user.LaundryId = command.LaundryId;
 
-            var savedUser = _context.Users.Add(user);
-            identity.UserId = savedUser.Entity.Id;
-
-            _context.Identities.Add(identity);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }
     }

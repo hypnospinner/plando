@@ -20,19 +20,17 @@ namespace Plando.Commands.Auth
 
         public async Task HandleAsync(RegisterUser command)
         {
-            var savedUser = _context.Users.Add(new User()
+            _context.Users.Add(new User()
             {
                 FirstName = command.FirstName,
                 LastName = command.LastName,
                 Email = command.Email,
-            });
-
-            _context.Identities.Add(new Identity()
-            {
-                UserId = savedUser.Entity.Id,
-                Email = command.Email,
-                Password = command.Password,
-                Role = UserRole.Client
+                Identity = new Identity()
+                {
+                    Email = command.Email,
+                    Password = command.Password,
+                    Role = UserRole.Client
+                }
             });
 
             await _context.SaveChangesAsync();

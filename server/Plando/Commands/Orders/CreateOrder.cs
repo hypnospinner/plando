@@ -3,9 +3,8 @@ using Convey.CQRS.Commands;
 using Plando.Models;
 using Plando.Common;
 using Plando.Models.Orders;
-using Plando.Models.Users;
 
-namespace Plando.Commands.Order
+namespace Plando.Commands.Orders
 {
     public class CreateOrder : OrderCreatedEvent, ICommand { }
 
@@ -16,7 +15,6 @@ namespace Plando.Commands.Order
         {
             _context.OrderCreatedEvents.Add(command as OrderCreatedEvent);
             await _context.SaveChangesAsync();
-
         }
     }
 }
