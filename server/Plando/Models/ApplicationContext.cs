@@ -103,6 +103,13 @@ namespace Plando.Models
                 .HasOne<Laundry>(x => x.Laundry)
                 .WithMany(x => x.Managers)
                 .HasForeignKey(x => x.LaundryId);
+
+            // * order created events <-> 1 user 
+            modelBuilder
+                .Entity<OrderCreatedEvent>()
+                .HasOne<User>(x => x.Client)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.ClientId);
         }
 
         public DbSet<User> Users { get; set; }
