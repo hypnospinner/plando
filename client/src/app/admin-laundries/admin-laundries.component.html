@@ -1,0 +1,9 @@
+<div class="card mt-4">
+  <h4 class="card-header">Список прачечных</h4>
+  <div class="card-body">
+    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    <ul *ngIf="laundries">
+      <li *ngFor="let laundry of laundries">{{laundry.username}}</li>
+    </ul>
+  </div>
+</div>

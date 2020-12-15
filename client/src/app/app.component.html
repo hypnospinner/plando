@@ -1,13 +1,13 @@
 ﻿<!-- nav -->
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <div class="navbar-nav">
-        <a class="nav-item nav-link" routerLink="/">Home</a>
-        <a class="nav-item nav-link" routerLink="/admin" *ngIf="isAdmin">Admin</a>
-        <span class="flex-spacer"></span>
-        <a class="nav-item nav-link" routerLink="/register" *ngIf="!user">Register</a>
-        <a class="nav-item nav-link" routerLink="/login" *ngIf="!user">Login</a>
-        <a class="nav-item nav-link" (click)="logout()" *ngIf="user">Logout</a>
-    </div>
+  <div class="navbar-nav">
+      <a class="nav-item nav-link" routerLink="/">Home</a>
+      <a class="nav-item nav-link" routerLink="/admin" *ngIf="isAdmin">Admin</a>
+      <span class="flex-spacer"></span>
+      <a class="nav-item nav-link" routerLink="/register" *ngIf="!user">Register</a>
+      <a class="nav-item nav-link" routerLink="/login" *ngIf="!user">Login</a>
+      <a class="nav-item nav-link" (click)="logout()" *ngIf="user">Logout</a>
+  </div>
 </nav>
 
 <!-- main app container -->

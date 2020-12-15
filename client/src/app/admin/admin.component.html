@@ -1,5 +1,5 @@
 ﻿<div class="card mt-4">
-    <h4 class="card-header">Admin</h4>
+    <h4 class="card-header">Admin page</h4>
     <div class="card-body">
         <p>This page can be accessed <u>only by administrators</u>.</p>
         <p class="mb-1">All users from secure (admin only) api end point:</p>
@@ -7,5 +7,16 @@
         <ul *ngIf="users">
             <li *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</li>
         </ul>
+        <div>
+          <div class="container">
+            <a routerLink="/admin/laundries" class="btn btn-secondary btn-lg active" role="button">Список прачечных</a>
+          </div>
+          <div class="container">
+            <a routerLink="/register/laundry" class="btn btn-secondary btn-lg active" role="button">Зарегестрировать новую прачечную</a>
+          </div>
+          <div class="container">
+            <a routerLink="/admin/services" class="btn btn-secondary btn-lg active" role="button">Управление сервисами</a>
+          </div>
+        </div>
     </div>
 </div>

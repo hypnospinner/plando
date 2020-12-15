@@ -17,7 +17,7 @@ export class AppComponent {
     }
 
     get isLaundry() {
-        return this.user && this.user.role === Role.Laundry;
+        return this.user && this.user.role === Role.LaundryManager;
     }
 
     logout() {

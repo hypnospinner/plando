@@ -8,7 +8,7 @@ import {Role} from '@app/_models';
 const users = [
     { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: 'User', role: Role.Admin },
     { id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User },
-    { id: 3, username: 'laun', password: 'dry', firstName: 'Plan', lastName: 'do', role: Role.Laundry}
+    { id: 3, username: 'laun', password: 'dry', firstName: 'Plan', lastName: 'do', role: Role.LaundryManager}
 ];
 
 @Injectable()
@@ -91,7 +91,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function isLaundry(){
-            return isLoggedIn() && currentUser().role === Role.Laundry;
+            return isLoggedIn() && currentUser().role === Role.LaundryManager;
         }
 
         function currentUser() {
