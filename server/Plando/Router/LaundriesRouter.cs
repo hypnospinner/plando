@@ -3,6 +3,7 @@ using Convey.WebApi;
 using Convey.WebApi.CQRS;
 using Plando.Commands.Laundries;
 using Plando.DTOs;
+using Plando.Models.Users;
 using Plando.Queries.Laundries;
 
 
@@ -12,7 +13,6 @@ namespace Plando.Router
     {
         public static IDispatcherEndpointsBuilder AddLaundriesRouter(this IDispatcherEndpointsBuilder endpoints)
             => endpoints
-            // add new laundry
             .Post<CreateLaundry>(
                 path: "laundries",
                 afterDispatch: async (command, context) =>
@@ -30,8 +30,19 @@ namespace Plando.Router
                         id = command.Id
                     });
                 })
-            .Get<GetAllLaundries, IEnumerable<LaundryDTO>>("laundries")
-            .Get<GetLaundryById, LaundryDTO>("laundries/{id}");
+            .Post<DismissManager>(
+                path: "laundry/dismiss",
+                auth: true,
+                roles: UserRole.Administrator.ToString())
+            .Post<EmployManager>(
+                path: "laundry/employ",
+                auth: true,
+                roles: UserRole.Administrator.ToString()
+            )
+            .Get<GetAllLaundries, IEnumerable<LaundryDTO>>(
+                path: "laundries")
+            .Get<GetLaundryById, LaundryDTO>(
+                path: "laundries/{id}");
 
     }
 }
