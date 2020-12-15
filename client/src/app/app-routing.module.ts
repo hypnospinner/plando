@@ -4,14 +4,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home';
 import { AdminComponent } from './admin';
 import { LoginComponent } from './login';
+import { RegisterComponent } from './register';
 import { AuthGuard } from './_helpers';
 import { Role } from './_models';
 
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
-        canActivate: [AuthGuard]
+        component: HomeComponent
     },
     {
         path: 'admin',
@@ -22,6 +22,10 @@ const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+      path: 'register',
+      component: RegisterComponent
     },
 
     // otherwise redirect to home

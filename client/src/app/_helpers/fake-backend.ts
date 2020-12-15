@@ -1,13 +1,14 @@
-﻿import { Injectable } from '@angular/core';
-import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { delay, materialize, dematerialize } from 'rxjs/operators';
+﻿import {Injectable} from '@angular/core';
+import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
+import {delay, dematerialize, materialize} from 'rxjs/operators';
 
-import { Role } from '@app/_models';
+import {Role} from '@app/_models';
 
 const users = [
     { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: 'User', role: Role.Admin },
-    { id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User }
+    { id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User },
+    { id: 3, username: 'laun', password: 'dry', firstName: 'Plan', lastName: 'do', role: Role.Laundry}
 ];
 
 @Injectable()
@@ -15,7 +16,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
 
-        return handleRoute();        
+        return handleRoute();
 
         function handleRoute() {
             switch (true) {
@@ -87,6 +88,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function isAdmin() {
             return isLoggedIn() && currentUser().role === Role.Admin;
+        }
+
+        function isLaundry(){
+            return isLoggedIn() && currentUser().role === Role.Laundry;
         }
 
         function currentUser() {

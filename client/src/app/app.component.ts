@@ -16,6 +16,10 @@ export class AppComponent {
         return this.user && this.user.role === Role.Admin;
     }
 
+    get isLaundry() {
+        return this.user && this.user.role === Role.Laundry;
+    }
+
     logout() {
         this.authenticationService.logout();
     }
