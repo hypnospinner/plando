@@ -9,6 +9,11 @@ namespace Plando.Commands.Laundries
 {
     public class DeleteLaundry : ICommand
     {
+        public DeleteLaundry(int id)
+        {
+            Id = id;
+        }
+
         public int Id { get; set; }
     }
 

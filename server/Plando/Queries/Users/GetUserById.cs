@@ -6,16 +6,16 @@ using Plando.Models;
 
 namespace Plando.Queries.Users
 {
-    public class GetUserById : IQuery<UserDTO>
+    public class GetProfile : IQuery<UserDTO>
     {
         public int Id { get; set; }
     }
 
-    public class GetUserByIdHandler : HandlerWithApplicationContext, IQueryHandler<GetUserById, UserDTO>
+    public class GetUserByIdHandler : HandlerWithApplicationContext, IQueryHandler<GetProfile, UserDTO>
     {
         public GetUserByIdHandler(ApplicationContext context) : base(context) { }
 
-        public async Task<UserDTO> HandleAsync(GetUserById query)
+        public async Task<UserDTO> HandleAsync(GetProfile query)
         {
             var user = await _context.Users.FindAsync(query.Id);
 

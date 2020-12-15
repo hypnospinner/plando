@@ -24,6 +24,14 @@ namespace Plando.Models
                 .HasForeignKey<OrderPassedEvent>(x => x.OrderId)
                 .IsRequired(false);
 
+            // 1 created <-> 1 put in progress
+            modelBuilder
+                .Entity<OrderCreatedEvent>()
+                .HasOne<OrderPutInProgressEvent>(x => x.OrderPutInProgressEvent)
+                .WithOne(x => x.OrderCreatedEvent)
+                .HasForeignKey<OrderPutInProgressEvent>(x => x.OrderId)
+                .IsRequired(false);
+
             // 1 created <-> 1 finished
             modelBuilder
                 .Entity<OrderCreatedEvent>()
@@ -64,6 +72,14 @@ namespace Plando.Models
                 .HasOne<Service>(x => x.Service)
                 .WithMany(x => x.Laundries)
                 .HasForeignKey(x => x.ServiceId)
+                .IsRequired();
+
+            // * order created events <-> 1 laundry
+            modelBuilder
+                .Entity<OrderCreatedEvent>()
+                .HasOne<Laundry>(x => x.Laundry)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.LaundryId)
                 .IsRequired();
 
             // * service added event <-> 1 service
@@ -116,7 +132,7 @@ namespace Plando.Models
         public DbSet<Identity> Identities { get; set; }
         public DbSet<Laundry> Laundries { get; set; }
         public DbSet<Service> Services { get; set; }
-        public DbSet<LaundryService> ServiceAvailabilities { get; set; }
+        public DbSet<LaundryService> LaundryServices { get; set; }
         public DbSet<ServiceAddedEvent> ServiceAddedEvents { get; set; }
         public DbSet<ServiceRemovedEvent> ServiceRemovedEvents { get; set; }
         public DbSet<ServiceCompletedEvent> ServiceCompletedEvents { get; set; }
@@ -124,5 +140,6 @@ namespace Plando.Models
         public DbSet<OrderPassedEvent> OrderPassedEvents { get; set; }
         public DbSet<OrderFinishedEvent> OrderFinishedEvents { get; set; }
         public DbSet<OrderCancelledEvent> OrderCancelledEvents { get; set; }
+        public DbSet<OrderPutInProgressEvent> OrderPutInProgressEvents { get; set; }
     }
 }

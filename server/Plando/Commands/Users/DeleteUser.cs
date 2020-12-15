@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Plando.Common;
 using Plando.Models;
 using Plando.Models.Users;
+using static Plando.Common.TypedException;
 
 namespace Plando.Commands.Users
 {
@@ -23,7 +24,7 @@ namespace Plando.Commands.Users
                 .FirstOrDefaultAsync(x => x.Id == command.Id);
 
             if (user is null)
-                throw new Exception("Cannot delete user that does not exist");
+                throw BusinessLogicException($"Cannot delete user {command.Id} as one does not exist");
 
             var identity = await _context
                 .Identities.FirstOrDefaultAsync(x => x.Email == user.Email);

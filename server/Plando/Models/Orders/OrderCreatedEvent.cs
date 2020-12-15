@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Plando.Common;
+using Plando.Models.Laundries;
 using Plando.Models.Users;
 
 namespace Plando.Models.Orders
@@ -12,8 +13,10 @@ namespace Plando.Models.Orders
         public OrderPassedEvent OrderPassedEvent { get; set; }
         public OrderFinishedEvent OrderFinishedEvent { get; set; }
         public OrderCancelledEvent OrderCancelledEvent { get; set; }
+        public OrderPutInProgressEvent OrderPutInProgressEvent { get; set; }
         public ICollection<ServiceAddedEvent> ServiceAddedEvents { get; set; }
         public User Client { get; set; }
+        public Laundry Laundry { get; set; }
         public Order Push(Order aggregate)
         {
             aggregate.Id = Id;

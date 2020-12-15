@@ -8,12 +8,10 @@ namespace Plando.DTOs
         {
             Id = laundry.Id;
             Address = laundry.Address;
-            ManagerId = laundry.ManagerId;
         }
 
-        public int Id { get; set;}
+        public int Id { get; set; }
         public string Address { get; set; }
-        public int ManagerId { get; set; }
     }
 }
 

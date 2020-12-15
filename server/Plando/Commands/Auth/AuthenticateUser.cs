@@ -10,11 +10,15 @@ namespace Plando.Commands.Auth
 {
     public class AuthenticateUser : ICommand
     {
+        public AuthenticateUser(string email, string password)
+        {
+            Email = email;
+            Password = password;
+        }
+
         public string Email { get; set; }
         public string Password { get; set; }
-#nullable enable
-        public string? Token { get; set; } = null;
-#nullable disable
+        public string Token { get; set; } = null;
     }
 
     public class AuthenticateUserHandler :

@@ -5,7 +5,8 @@ namespace Plando.Common
     public enum ExceptionType
     {
         BUSINESS,
-        INFRASTRUCTURE
+        INFRASTRUCTURE,
+        API
     }
 
     public class TypedException : Exception
@@ -20,5 +21,8 @@ namespace Plando.Common
 
         public static TypedException InfrastructureException(string message)
             => new TypedException(message, ExceptionType.INFRASTRUCTURE);
+
+        public static TypedException ApiException(string message)
+            => new TypedException(message, ExceptionType.API);
     }
 }

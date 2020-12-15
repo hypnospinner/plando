@@ -6,7 +6,15 @@ using Plando.Models.Orders;
 
 namespace Plando.Commands.Orders
 {
-    public class CreateOrder : OrderCreatedEvent, ICommand { }
+    public class CreateOrder : OrderCreatedEvent, ICommand
+    {
+        public CreateOrder(int clientId, int laundryId, string title)
+        {
+            ClientId = clientId;
+            LaundryId = laundryId;
+            Title = title;
+        }
+    }
 
     public class CreateOrderHandler : HandlerWithApplicationContext, ICommandHandler<CreateOrder>
     {
