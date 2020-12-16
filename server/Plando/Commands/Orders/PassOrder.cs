@@ -8,12 +8,13 @@ using Plando.Models.Orders;
 
 namespace Plando.Commands.Orders
 {
-    public class PassOrder : OrderPassedEvent, ICommand
+    public class PassOrder : ICommand
     {
         public PassOrder(int orderId)
             => OrderId = orderId;
 
         public int? ClientId { get; set; } = null;
+        public int OrderId { get; private set; }
     }
 
     public class PassOrderHandler : HandlerWithApplicationContext, ICommandHandler<PassOrder>
@@ -47,7 +48,7 @@ namespace Plando.Commands.Orders
             if (orderCreatedEvent.OrderCancelledEvent is not null)
                 throw BusinessLogicException($"Cannot pass order {command.OrderId} as it has been cancelled");
 
-            _context.OrderPassedEvents.Add(command as OrderPassedEvent);
+            _context.OrderPassedEvents.Add(new OrderPassedEvent { OrderId = command.OrderId });
             await _context.SaveChangesAsync();
         }
     }

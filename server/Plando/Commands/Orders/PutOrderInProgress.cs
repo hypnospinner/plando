@@ -10,12 +10,13 @@ using static Plando.Common.TypedException;
 
 namespace Plando.Commands.Orders
 {
-    public class PutOrderInProgress : OrderPutInProgressEvent, ICommand
+    public class PutOrderInProgress : ICommand
     {
         public PutOrderInProgress(int orderId)
             => OrderId = orderId;
 
         public int? ManagerId { get; set; } = null;
+        public int OrderId { get; private set; }
     }
 
     public class PutOrderInProgressHandler : HandlerWithApplicationContext, ICommandHandler<PutOrderInProgress>
@@ -54,7 +55,7 @@ namespace Plando.Commands.Orders
             if (orderCreatedEvent.OrderPutInProgressEvent is not null)
                 throw BusinessLogicException($"Cannot put order {command.OrderId} in progress as it has been already put in progress");
 
-            _context.OrderPutInProgressEvents.Add(command as OrderPutInProgressEvent);
+            _context.OrderPutInProgressEvents.Add(new OrderPutInProgressEvent { OrderId = command.OrderId });
             await _context.SaveChangesAsync();
         }
     }

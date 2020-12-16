@@ -10,7 +10,7 @@ using static Plando.Common.TypedException;
 
 namespace Plando.Commands.Orders
 {
-    public class RemoveServiceFromOrder : ServiceRemovedEvent, ICommand
+    public class RemoveServiceFromOrder : ICommand
     {
         public RemoveServiceFromOrder(int serviceId, int orderId)
         {
@@ -19,6 +19,8 @@ namespace Plando.Commands.Orders
         }
 
         public int? ClientId { get; set; } = null;
+        public int ServiceId { get; private set; }
+        public int OrderId { get; private set; }
     }
 
     public class RemoveServiceFromOrderHandler : HandlerWithApplicationContext, ICommandHandler<RemoveServiceFromOrder>
@@ -56,18 +58,22 @@ namespace Plando.Commands.Orders
             if (orderCreatedEvent.OrderPutInProgressEvent is not null)
                 throw BusinessLogicException($"Cannot remove service from order {command.OrderId} as it has been put in progress");
 
-            var @event = orderCreatedEvent.ServiceAddedEvents
+            var serviceAddedEvent = orderCreatedEvent.ServiceAddedEvents
                 .SingleOrDefault(x => x.ServiceId == command.ServiceId);
 
-            if (@event.ServiceRemovedEvent is not null)
+            if (serviceAddedEvent.ServiceRemovedEvent is not null)
                 throw BusinessLogicException($"Cannot remove service {command.ServiceId} as it has been already removed");
 
-            if (@event.ServiceCompletedEvent is not null)
+            if (serviceAddedEvent.ServiceCompletedEvent is not null)
                 throw BusinessLogicException($"Cannot remove service {command.ServiceId} as it has been already completed");
 
-            command.ServiceAddedEventId = @event.Id;
+            var serviceRemovedEvent = new ServiceRemovedEvent { 
+                ServiceAddedEventId = serviceAddedEvent.Id,
+                OrderId = command.OrderId,
+                ServiceId = command.ServiceId 
+            };
 
-            _context.ServiceRemovedEvents.Add(command as ServiceRemovedEvent);
+            _context.ServiceRemovedEvents.Add(serviceRemovedEvent);
             await _context.SaveChangesAsync();
         }
     }

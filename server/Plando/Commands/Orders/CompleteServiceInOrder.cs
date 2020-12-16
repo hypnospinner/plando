@@ -9,7 +9,7 @@ using static Plando.Common.TypedException;
 
 namespace Plando.Commands.Orders
 {
-    public class CompleteServiceInOrder : ServiceCompletedEvent, ICommand
+    public class CompleteServiceInOrder : ICommand
     {
         public CompleteServiceInOrder(int serviceId, int orderId)
         {
@@ -18,6 +18,8 @@ namespace Plando.Commands.Orders
         }
 
         public int? ManagerId { get; set; } = null;
+        public int ServiceId { get; private set; }
+        public int OrderId { get; private set; }
     }
 
     public class CompleteServiceInOrderHandler : HandlerWithApplicationContext, ICommandHandler<CompleteServiceInOrder>
@@ -57,18 +59,21 @@ namespace Plando.Commands.Orders
             if (orderCreatedEvent.OrderPutInProgressEvent is not null)
                 throw BusinessLogicException($"Cannot complete service in order {command.OrderId} as it has been put in progress");
 
-            var @event = orderCreatedEvent.ServiceAddedEvents
+            var serviceAddedEvent = orderCreatedEvent.ServiceAddedEvents
                 .SingleOrDefault(x => x.ServiceId == command.ServiceId);
 
-            if (@event.ServiceRemovedEvent is not null)
+            if (serviceAddedEvent.ServiceRemovedEvent is not null)
                 throw BusinessLogicException($"Cannot complete service {command.ServiceId} as it has been already removed");
 
-            if (@event.ServiceCompletedEvent is not null)
+            if (serviceAddedEvent.ServiceCompletedEvent is not null)
                 throw BusinessLogicException($"Cannot complete service {command.ServiceId} as it has been already completed");
 
-            command.ServiceAddedEventId = @event.Id;
+            var serviceCompletedEvent = new ServiceCompletedEvent { 
+                ServiceAddedEventId = serviceAddedEvent.Id,
+                ServiceId = command.ServiceId,
+                OrderId = command.OrderId  };
 
-            _context.ServiceCompletedEvents.Add(command as ServiceCompletedEvent);
+            _context.ServiceCompletedEvents.Add(serviceCompletedEvent);
             await _context.SaveChangesAsync();
         }
     }

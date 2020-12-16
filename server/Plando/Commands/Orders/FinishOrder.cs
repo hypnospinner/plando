@@ -9,12 +9,13 @@ using static Plando.Common.TypedException;
 
 namespace Plando.Commands.Orders
 {
-    public class FinishOrder : OrderFinishedEvent, ICommand
+    public class FinishOrder : ICommand
     {
         public FinishOrder(int orderId)
             => OrderId = orderId;
 
         public int? ManagerId { get; set; } = null;
+        public int OrderId { get; private set; }
     }
 
     public class FinishOrderHandler : HandlerWithApplicationContext, ICommandHandler<FinishOrder>
@@ -55,7 +56,7 @@ namespace Plando.Commands.Orders
                 if (@event.ServiceCompletedEvent is null)
                     throw BusinessLogicException($"Cannot finish order {command.OrderId} as service {@event.ServiceId} is not completed");
 
-            _context.OrderFinishedEvents.Add(command as OrderFinishedEvent);
+            _context.OrderFinishedEvents.Add(new OrderFinishedEvent { OrderId = command.OrderId });
             await _context.SaveChangesAsync();
         }
     }

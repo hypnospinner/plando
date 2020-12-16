@@ -9,12 +9,13 @@ using Plando.Models.Users;
 
 namespace Plando.Commands.Orders
 {
-    public class CancelOrder : OrderCancelledEvent, ICommand
+    public class CancelOrder : ICommand
     {
         public CancelOrder(int orderId)
             => OrderId = orderId;
 
         public int? ClientId { get; set; } = null;
+        public int OrderId { get; private set; }
     }
 
     public class CancelOrderHandler : HandlerWithApplicationContext, ICommandHandler<CancelOrder>
@@ -52,7 +53,7 @@ namespace Plando.Commands.Orders
             if (orderCreatedEvent.OrderCancelledEvent is not null)
                 throw BusinessLogicException($"Cannot cancel order {command.OrderId} as it has been already cancelled");
 
-            _context.OrderCancelledEvents.Add(command as OrderCancelledEvent);
+            _context.OrderCancelledEvents.Add(new OrderCancelledEvent { OrderId = command.OrderId });
             await _context.SaveChangesAsync();
         }
     }

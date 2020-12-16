@@ -10,7 +10,7 @@ using Plando.Models.Users;
 
 namespace Plando.Commands.Orders
 {
-    public class AddServiceToOrder : ServiceAddedEvent, ICommand
+    public class AddServiceToOrder : ICommand
     {
         public AddServiceToOrder(int serviceId, int orderId)
         {
@@ -19,6 +19,8 @@ namespace Plando.Commands.Orders
         }
 
         public int? ClientId { get; set; } = null;
+        public int ServiceId { get; private set; }
+        public int OrderId { get; private set; }
     }
 
     public class AddServiceToOrderHandler : HandlerWithApplicationContext, ICommandHandler<AddServiceToOrder>
@@ -63,7 +65,11 @@ namespace Plando.Commands.Orders
             if (orderCreatedEvent.OrderPutInProgressEvent is not null)
                 throw BusinessLogicException($"Cannot add service to order {command.OrderId} as it has been already pu in progress");
 
-            _context.ServiceAddedEvents.Add(command as ServiceAddedEvent);
+            _context.ServiceAddedEvents.Add(new ServiceAddedEvent
+            {
+                ServiceId = command.ServiceId,
+                OrderId = command.OrderId
+            });
             await _context.SaveChangesAsync();
         }
     }
