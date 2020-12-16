@@ -1,3 +1,4 @@
+using System.Linq;
 using Plando.Common;
 
 namespace Plando.Models.Orders
@@ -12,7 +13,16 @@ namespace Plando.Models.Orders
 
         public Order Push(Order aggregate)
         {
-            throw new System.NotImplementedException();
+            if (aggregate is null)
+                return null;
+
+            aggregate.Services = aggregate.Services
+                .Where(x => x.Id != ServiceId)
+                .ToList();
+
+            aggregate.Price = aggregate.Services.Sum(x => x.Price);
+
+            return aggregate;
         }
     }
 }

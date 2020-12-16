@@ -13,19 +13,9 @@ namespace Plando.Models.Orders
             if (aggregate is null)
                 return null;
 
-            if (aggregate.Status == OrderStatus.NEW)
-            {
-                aggregate.Id = OrderId;
-                aggregate.Status = OrderStatus.CANCELLED;
-                aggregate.Price = 0;
+            aggregate.Status = OrderStatus.CANCELLED;
 
-                return aggregate;
-            }
-            else
-            {
-                throw new Exception("Can't cancell the order 'cause it is in progress");
-            }
-
+            return aggregate;
         }
     }
 

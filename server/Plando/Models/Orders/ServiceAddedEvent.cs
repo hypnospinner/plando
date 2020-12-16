@@ -17,9 +17,17 @@ namespace Plando.Models.Orders
             if (aggregate is null)
                 return null;
 
-            aggregate.Id = OrderId;
-            //aggregate.Services.Add()
-            throw new NotImplementedException();
+            aggregate.Services.Add(new ServiceInOrder
+            {
+                Id = ServiceId,
+                Done = false,
+                Name = Service.Title,
+                Price = Service.Price
+            });
+
+            aggregate.Price += Service.Price;
+
+            return aggregate;
         }
     }
 }

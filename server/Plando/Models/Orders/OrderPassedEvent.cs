@@ -11,10 +11,9 @@ namespace Plando.Models.Orders
             if (aggregate is null)
                 return null;
 
-            aggregate.Id = OrderId;
             aggregate.Status = OrderStatus.PASSED;
-            return aggregate;
 
+            return aggregate;
         }
     }
 }

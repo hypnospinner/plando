@@ -4,7 +4,7 @@ namespace Plando.Models.Orders
     {
         NEW,            // created
         CANCELLED,     // client cancelled order
-        IN_PROCESS,     // laundry is processing order
+        IN_PROGRESS,     // laundry is processing order
         FINISHED,       // laundry finished order
         PASSED,         // client picked order from laundry
     }

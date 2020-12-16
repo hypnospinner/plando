@@ -1,3 +1,4 @@
+using System.Linq;
 using Plando.Common;
 
 namespace Plando.Models.Orders
@@ -11,7 +12,15 @@ namespace Plando.Models.Orders
         public ServiceAddedEvent ServiceAddedEvent { get; set; }
         public Order Push(Order aggregate)
         {
-            throw new System.NotImplementedException();
+            if (aggregate is null)
+                return null;
+
+            var service = aggregate.Services
+                .FirstOrDefault(x => x.Id == ServiceId);
+
+            service.Done = true;
+
+            return aggregate;
         }
     }
 }

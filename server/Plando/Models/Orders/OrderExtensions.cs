@@ -43,7 +43,9 @@ namespace Plando.Models.Orders
                         return list;
                     }));
 
-            return aggregates.Aggregate();
+            return aggregates
+                .Where(x => x is not null)
+                .Aggregate();
         }
 
         public static async Task<IEnumerable<Order>> GetOrdersAsync(this ApplicationContext context, int page = 0, int perPage = 20)

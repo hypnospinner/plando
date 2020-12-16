@@ -12,12 +12,7 @@ namespace Plando.Models.Orders
             if (aggregate is null)
                 return null;
 
-            aggregate.Id = OrderId;
             aggregate.Status = OrderStatus.FINISHED;
-            aggregate.Price = 0;
-
-            foreach (ServiceInOrder item in aggregate.Services)
-                aggregate.Price += item.Price;
 
             return aggregate;
         }

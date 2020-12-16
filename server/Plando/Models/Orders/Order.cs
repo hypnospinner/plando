@@ -10,12 +10,13 @@ namespace Plando.Models.Orders
         public string Title { get; set; }
         public OrderStatus Status { get; set; }
         public decimal Price { get; set; }
-        public ICollection<ServiceInOrder> Services { get; set; }
+        public IList<ServiceInOrder> Services { get; set; }
     }
 
     public class ServiceInOrder
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public bool Done { get; set; }
         public decimal Price { get; set; }
     }

@@ -13,9 +13,7 @@ namespace Plando.Queries.Orders
     public class GetOrder : IQuery<Order>
     {
         public GetOrder(int orderId)
-        {
-            OrderId = orderId;
-        }
+            => OrderId = orderId;
 
         public int OrderId { get; set; }
         public int? UserId { get; set; } = null;
@@ -40,7 +38,8 @@ namespace Plando.Queries.Orders
             switch (user.Identity.Role)
             {
                 case UserRole.Client:
-                    if (!user.Orders.Any(x => x.Id == query.OrderId))
+                    var hasOrder = user.Orders.Any(x => x.Id == query.OrderId);
+                    if (!hasOrder)
                         throw BusinessLogicException($"Cannot return order {query.OrderId} to user {user.Id}");
 
                     return await _context.GetOrderAsync(query.OrderId);

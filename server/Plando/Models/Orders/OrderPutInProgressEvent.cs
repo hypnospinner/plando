@@ -8,7 +8,11 @@ namespace Plando.Models.Orders
         public OrderCreatedEvent OrderCreatedEvent { get; set; }
         public Order Push(Order aggregate)
         {
-            throw new System.NotImplementedException();
+            if (aggregate is null)
+                return null;
+
+            aggregate.Status = OrderStatus.IN_PROGRESS;
+            return aggregate;
         }
     }
 }
