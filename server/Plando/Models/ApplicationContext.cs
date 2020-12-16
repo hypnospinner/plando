@@ -10,7 +10,6 @@ namespace Plando.Models
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -65,7 +64,7 @@ namespace Plando.Models
                 .HasOne<Laundry>(x => x.Laundry)
                 .WithMany(x => x.Services)
                 .HasForeignKey(x => x.LaundryId)
-                .IsRequired();
+                .IsRequired(false);
 
             modelBuilder
                 .Entity<LaundryService>()

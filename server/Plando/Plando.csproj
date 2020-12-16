@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="32.0.2" />
     <PackageReference Include="Convey" Version="0.4.403" />
     <PackageReference Include="Convey.Auth" Version="0.4.403" />
     <PackageReference Include="Convey.CQRS.Commands" Version="0.4.403" />

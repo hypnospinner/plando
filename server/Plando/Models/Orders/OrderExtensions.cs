@@ -8,50 +8,40 @@ namespace Plando.Models.Orders
 {
     public static class OrdersExtensions
     {
-        // context.GetOrder(id)
         public static async Task<Order> GetOrderAsync(this ApplicationContext context, int id)
         {
             var orderCreatedEvent = await context.OrderCreatedEvents
-                .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.Id == id) as IAggregator<Order>;
+                .Include(x => x.OrderPutInProgressEvent)
+                .Include(x => x.OrderCancelledEvent)
+                .Include(x => x.OrderPassedEvent)
+                .Include(x => x.OrderPutInProgressEvent)
+                .Include(x => x.ServiceAddedEvents)
+                    .ThenInclude(x => x.ServiceCompletedEvent)
+                .Include(x => x.ServiceAddedEvents)
+                    .ThenInclude(x => x.ServiceRemovedEvent)
+                .Include(x => x.ServiceAddedEvents)
+                    .ThenInclude(x => x.Service)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (orderCreatedEvent is null)
                 return null;
 
-            var orderPassedEvent = await context.OrderPassedEvents
-                .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.OrderId == id) as IAggregator<Order>;
+            var aggregates = new List<IAggregator<Order>>(new IAggregator<Order>[] {
+                orderCreatedEvent,
+                orderCreatedEvent.OrderCancelledEvent,
+                orderCreatedEvent.OrderFinishedEvent,
+                orderCreatedEvent.OrderPassedEvent,
+                orderCreatedEvent.OrderPutInProgressEvent})
+                .Concat(orderCreatedEvent.ServiceAddedEvents.Aggregate(
+                    new List<IAggregator<Order>>(), (list, next) =>
+                    {
+                        list.AddRange(new IAggregator<Order>[] {
+                            next,
+                            next.ServiceCompletedEvent,
+                            next.ServiceRemovedEvent,});
 
-            var orderFinishedEvent = await context.OrderFinishedEvents
-                .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.OrderId == id) as IAggregator<Order>;
-
-            var serviceAddedEvents = context.ServiceAddedEvents
-                .AsNoTracking()
-                .Where(x => x.OrderId == id)
-                .Select(x => x as IAggregator<Order>)
-                .AsEnumerable();
-
-            var serviceCompletedEvents = context.ServiceCompletedEvents
-                .AsNoTracking()
-                .Where(x => x.OrderId == id)
-                .Select(x => x as IAggregator<Order>)
-                .AsEnumerable();
-
-            var serviceRemovedEvents = context.ServiceAddedEvents
-                .AsNoTracking()
-                .Where(x => x.OrderId == id)
-                .Select(x => x as IAggregator<Order>)
-                .AsEnumerable();
-
-            var aggregates = new List<IAggregator<Order>>();
-
-            aggregates.Add(orderCreatedEvent);
-            aggregates.Add(orderPassedEvent);
-            aggregates.Add(orderFinishedEvent);
-            aggregates.AddRange(serviceAddedEvents);
-            aggregates.AddRange(serviceRemovedEvents);
-            aggregates.AddRange(serviceCompletedEvents);
+                        return list;
+                    }));
 
             return aggregates.Aggregate();
         }

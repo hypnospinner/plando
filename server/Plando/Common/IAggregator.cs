@@ -13,7 +13,7 @@ namespace Plando.Common
     public static class AggregationExtensions
     {
         public static TAggregate Aggregate<TAggregate>(
-            this ICollection<IAggregator<TAggregate>> aggregators)
+            this IEnumerable<IAggregator<TAggregate>> aggregators)
             where TAggregate : new()
         {
             var aggregate = new TAggregate();
