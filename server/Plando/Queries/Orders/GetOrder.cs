@@ -38,8 +38,7 @@ namespace Plando.Queries.Orders
             switch (user.Identity.Role)
             {
                 case UserRole.Client:
-                    var hasOrder = user.Orders.Any(x => x.Id == query.OrderId);
-                    if (!hasOrder)
+                    if (!user.Orders.Any(x => x.Id == query.OrderId))
                         throw BusinessLogicException($"Cannot return order {query.OrderId} to user {user.Id}");
 
                     return await _context.GetOrderAsync(query.OrderId);

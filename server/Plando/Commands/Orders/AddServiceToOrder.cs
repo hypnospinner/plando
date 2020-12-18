@@ -36,6 +36,7 @@ namespace Plando.Commands.Orders
                 .Include(x => x.OrderCancelledEvent)
                 .Include(x => x.OrderFinishedEvent)
                 .Include(x => x.OrderPassedEvent)
+                .Include(x => x.OrderPutInProgressEvent)
                 .Include(x => x.ServiceAddedEvents)
                     .ThenInclude(x => x.ServiceRemovedEvent)
                 .Include(x => x.Laundry)
