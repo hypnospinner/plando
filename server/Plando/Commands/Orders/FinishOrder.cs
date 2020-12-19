@@ -15,7 +15,7 @@ namespace Plando.Commands.Orders
             => OrderId = orderId;
 
         public int? ManagerId { get; set; } = null;
-        public int OrderId { get; private set; }
+        public int OrderId { get; set; }
     }
 
     public class FinishOrderHandler : HandlerWithApplicationContext, ICommandHandler<FinishOrder>
@@ -31,10 +31,13 @@ namespace Plando.Commands.Orders
                 .Include(x => x.OrderFinishedEvent)
                 .Include(x => x.OrderCancelledEvent)
                 .Include(x => x.OrderPassedEvent)
+                .Include(x => x.OrderPutInProgressEvent)
                 .Include(x => x.Laundry)
                     .ThenInclude(x => x.Managers)
                 .Include(x => x.ServiceAddedEvents)
                     .ThenInclude(x => x.ServiceCompletedEvent)
+                .Include(x => x.ServiceAddedEvents)
+                    .ThenInclude(x => x.ServiceRemovedEvent)
                 .SingleOrDefaultAsync(x => x.Id == command.OrderId);
 
             if (!orderCreatedEvent.Laundry.Managers.Any(x => x.Id == command.ManagerId))
@@ -52,7 +55,8 @@ namespace Plando.Commands.Orders
             if (orderCreatedEvent.OrderCancelledEvent is not null)
                 throw BusinessLogicException($"Cannot pass order {command.OrderId} as it has been cancelled");
 
-            foreach (var @event in orderCreatedEvent.ServiceAddedEvents)
+            foreach (var @event in orderCreatedEvent.ServiceAddedEvents
+                .Where(x => x.ServiceRemovedEvent is null))
                 if (@event.ServiceCompletedEvent is null)
                     throw BusinessLogicException($"Cannot finish order {command.OrderId} as service {@event.ServiceId} is not completed");
 

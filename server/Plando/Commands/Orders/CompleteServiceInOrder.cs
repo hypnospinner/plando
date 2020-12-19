@@ -56,9 +56,6 @@ namespace Plando.Commands.Orders
             if (orderCreatedEvent.OrderFinishedEvent is not null)
                 throw BusinessLogicException($"Cannot complete service in order {command.OrderId} as it has been already finished");
 
-            if (orderCreatedEvent.OrderPutInProgressEvent is not null)
-                throw BusinessLogicException($"Cannot complete service in order {command.OrderId} as it has been put in progress");
-
             var serviceAddedEvent = orderCreatedEvent.ServiceAddedEvents
                 .SingleOrDefault(x => x.ServiceId == command.ServiceId);
 
@@ -68,10 +65,12 @@ namespace Plando.Commands.Orders
             if (serviceAddedEvent.ServiceCompletedEvent is not null)
                 throw BusinessLogicException($"Cannot complete service {command.ServiceId} as it has been already completed");
 
-            var serviceCompletedEvent = new ServiceCompletedEvent { 
+            var serviceCompletedEvent = new ServiceCompletedEvent
+            {
                 ServiceAddedEventId = serviceAddedEvent.Id,
                 ServiceId = command.ServiceId,
-                OrderId = command.OrderId  };
+                OrderId = command.OrderId
+            };
 
             _context.ServiceCompletedEvents.Add(serviceCompletedEvent);
             await _context.SaveChangesAsync();

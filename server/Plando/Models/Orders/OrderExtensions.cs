@@ -11,10 +11,10 @@ namespace Plando.Models.Orders
         public static async Task<Order> GetOrderAsync(this ApplicationContext context, int id)
         {
             var orderCreatedEvent = await context.OrderCreatedEvents
-                .Include(x => x.OrderPutInProgressEvent)
                 .Include(x => x.OrderCancelledEvent)
-                .Include(x => x.OrderPassedEvent)
                 .Include(x => x.OrderPutInProgressEvent)
+                .Include(x => x.OrderFinishedEvent)
+                .Include(x => x.OrderPassedEvent)
                 .Include(x => x.ServiceAddedEvents)
                     .ThenInclude(x => x.ServiceCompletedEvent)
                 .Include(x => x.ServiceAddedEvents)

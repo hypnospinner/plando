@@ -3,6 +3,7 @@ using Convey.WebApi;
 using Convey.WebApi.CQRS;
 using Plando.Commands.Laundries;
 using Plando.DTOs;
+using Plando.Models.Laundries;
 using Plando.Models.Users;
 using Plando.Queries.Laundries;
 
@@ -39,9 +40,9 @@ namespace Plando.Router
                 auth: true,
                 roles: UserRole.Administrator.ToString()
             )
-            .Get<GetAllLaundries, IEnumerable<LaundryDTO>>(
+            .Get<GetAllLaundries, IEnumerable<Laundry>>(
                 path: "laundries")
-            .Get<GetLaundryById, LaundryDTO>(
+            .Get<GetLaundryById, Laundry>(
                 path: "laundries/{id}");
 
     }

@@ -14,7 +14,7 @@ namespace Plando.Commands.Orders
             => OrderId = orderId;
 
         public int? ClientId { get; set; } = null;
-        public int OrderId { get; private set; }
+        public int OrderId { get; set; }
     }
 
     public class PassOrderHandler : HandlerWithApplicationContext, ICommandHandler<PassOrder>

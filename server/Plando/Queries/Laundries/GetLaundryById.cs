@@ -1,23 +1,22 @@
 using System.Threading.Tasks;
 using Convey.CQRS.Queries;
 using Plando.Common;
-using Plando.DTOs;
 using Plando.Models;
+using Plando.Models.Laundries;
 
 namespace Plando.Queries.Laundries
 {
-    public class GetLaundryById : IQuery<LaundryDTO>
+    public class GetLaundryById : IQuery<Laundry>
     {
         public int Id { get; set; }
     }
 
-    public class GetLaundryByIdHandler : HandlerWithApplicationContext, IQueryHandler<GetLaundryById, LaundryDTO>
+    public class GetLaundryByIdHandler : HandlerWithApplicationContext, IQueryHandler<GetLaundryById, Laundry>
     {
         public GetLaundryByIdHandler(ApplicationContext context) : base(context) { }
-        public async Task<LaundryDTO> HandleAsync(GetLaundryById query)
+        public async Task<Laundry> HandleAsync(GetLaundryById query)
         {
-            var laundry = await _context.Laundries.FindAsync(query.Id);
-            return new LaundryDTO(laundry);
+            return await _context.Laundries.FindAsync(query.Id);
         }
     }
 }
