@@ -2,17 +2,7 @@
 
 @user_token = bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0IiwidW5pcXVlX25hbWUiOiI0IiwianRpIjoiZDZkY2I5ODQtMDU4Mi00NTIwLTgxYzktOTk5NGNkZWU4MzUwIiwiaWF0IjoiMTYwODEwNjc4MSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNsaWVudCIsIm5iZiI6MTYwODEwNjc4MSwiZXhwIjoxNjA4MTA3MDgxLCJpc3MiOiJwbGFuZG9faXNzdWVyIn0.H5xRTkL1M6o7bdKIc7FhtWJftyy5e_HtrzRcwzu_x2I
 
-@manager_token = bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidW5pcXVlX25hbWUiOiIyIiwianRpIjoiMWRhMTkxMTAtOWJjZi00MTJiLThlNDYtMWNkYTA2MDFkYzliIiwiaWF0IjoiMTYwODExMjAzOCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Ik1hbmFnZXIiLCJuYmYiOjE2MDgxMTIwMzgsImV4cCI6MTYwODExMjMzOCwiaXNzIjoicGxhbmRvX2lzc3VlciJ9.-3RROjJTps4nSKIDEsH3r6_110RrS9xDGjeAP6Y73Ds
-
-###
-
-POST {{url}}/auth/login HTTP/1.1
-Content-Type: application/json
-
-{
-    "email": "Shanel23@hotmail.com",
-    "password": "seuoeeeaua"
-}
+@manager_token = bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidW5pcXVlX25hbWUiOiIyIiwianRpIjoiYTYwOGYwNTMtYzdlNC00YTUyLTg2NzEtNjBiYTdkNmNiYTI2IiwiaWF0IjoiMTYwODMxNzY4MyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6Ik1hbmFnZXIiLCJuYmYiOjE2MDgzMTc2ODMsImV4cCI6MTYwODMxNzk4MywiaXNzIjoicGxhbmRvX2lzc3VlciJ9.sXXdrsEhrf7IH5Bk5xoM4X8wvY-7nMMDJmlnnIPutYs
 
 ### create order
 
@@ -21,7 +11,7 @@ Authorization: {{user_token}}
 Content-Type: application/json
 
 {
-    "title": "Сандалии Gucci Flip Flap",
+    "title": "Куртка SAMURAI",
     "laundryId": 1,
     "clientId": 4
 }
@@ -43,7 +33,7 @@ Authorization: {{user_token}}
 Content-Type: application/json
 
 {
-    "serviceId": 2,
+    "serviceId": 1,
     "orderId": 2
 }
 
