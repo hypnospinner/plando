@@ -23,7 +23,7 @@ Authorization: {{user_token}}
 Content-Type: application/json
 
 {
-    "orderId": 1
+    "orderId": 2
 }
 
 ### add service to order

@@ -67,7 +67,7 @@ namespace Plando.Commands.Orders
                 throw BusinessLogicException($"Cannot add service to order {command.OrderId} as it has been already pu in progress");
 
             if (orderCreatedEvent.ServiceAddedEvents
-                .Any(x => x.ServiceId == command.ServiceId))
+                .Any(x => x.ServiceId == command.ServiceId && x.ServiceRemovedEvent is not null))
                 throw BusinessLogicException($"Cannot add service {command.ServiceId} to order {command.OrderId} as this kind of service is already present");
 
             _context.ServiceAddedEvents.Add(new ServiceAddedEvent

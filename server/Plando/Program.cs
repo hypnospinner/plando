@@ -39,6 +39,7 @@ namespace Plando
                 .ConfigureServices((context, services) => services
                     .AddDatabase(context.Configuration)
                     .AddConvey()
+                    .AddErrorHandler<ExceptionToResponseMapper>()
                     .AddCommandHandlers()
                     .AddQueryHandlers()
                     .AddEventHandlers()
@@ -46,7 +47,6 @@ namespace Plando
                     .AddInMemoryQueryDispatcher()
                     .AddInMemoryEventDispatcher()
                     .AddWebApi()
-                    .AddErrorHandler<ExceptionToResponseMapper>()
                     .AddSwaggerDocs()
                     .AddWebApiSwaggerDocs()
                     .AddJwt()
@@ -54,6 +54,7 @@ namespace Plando
                 .Configure(app => app
                     .UseAuthentication()
                     .UseConvey()
+                    .UseErrorHandler()
                     .UseRoutes()
                     .UseSwaggerDocs());
         }
