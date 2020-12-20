@@ -12,6 +12,7 @@ import {AdminLaundriesComponent} from './admin-laundries';
 import {AdminLaundryComponent} from '@app/admin-laundry/admin-laundry.component';
 import {LaundryRegistrationComponent} from './laundry-registration';
 import {OrdersComponent} from '@app/orders';
+import {ManagerRegistrationComponent} from '@app/manager-registration';
 
 
 const routes: Routes = [
@@ -52,6 +53,12 @@ const routes: Routes = [
     {
       path: 'register/laundry',
       component: LaundryRegistrationComponent,
+      canActivate: [AuthGuard],
+      data: { roles: [Role.Administrator]}
+    },
+    {
+      path: 'register/manager',
+      component: ManagerRegistrationComponent,
       canActivate: [AuthGuard],
       data: { roles: [Role.Administrator]}
     },

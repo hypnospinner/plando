@@ -32,7 +32,9 @@ export class AuthenticationService {
             return token;
         }));
     }
-
+    registerManager(email: string, password: string) {
+      return this.http.post<any>(`${environment.apiUrl}/auth/register/manager`, { email, password })
+    }
     login(email: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password })
             .pipe(map(token => {

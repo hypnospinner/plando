@@ -12,4 +12,10 @@ export class OrdersService {
   getOrders(): Observable<Order[]>{
     return this.http.get<Order[]>(`${environment.apiUrl}/order`);
   }
+  getOrderById(id: any): Observable<Order>{
+    return this.http.get<Order>(`${environment.apiUrl}/order/${id}`);
+  }
+  createOrder(title: string) {
+    return this.http.post(`${environment.apiUrl}/order/create`, {title});
+  }
 }

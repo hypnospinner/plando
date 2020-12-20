@@ -19,12 +19,7 @@ export class ManagerRegistrationComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService
-  ) {
-    // redirect to home if already logged in
-    if (this.authenticationService.tokenValue) {
-      this.router.navigate(['/']);
-    }
-  }
+  ) {}
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -45,7 +40,7 @@ export class ManagerRegistrationComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.register(this.f.email.value, this.f.password.value)
+    this.authenticationService.registerManager(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe({
         next: () => {
