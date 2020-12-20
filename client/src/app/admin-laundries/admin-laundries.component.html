@@ -3,8 +3,8 @@
   <div class="card-body">
     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
     <mat-list *ngIf="laundries">
-      <mat-list-item *ngFor="let laundry of laundries" [routerLink]="['/admin/laundry', laundry.id]">
-        <h4 matLine>{{laundry.username}}</h4>
+      <mat-list-item *ngFor="let laundry of laundries" [routerLink]="['/admin/laundries', laundry.id]">
+        <h4 matLine>{{laundry.address}}</h4>
       </mat-list-item>
     </mat-list>
   </div>

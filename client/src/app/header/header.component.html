@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark">
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/">Home</a>
+    <a class="nav-item nav-link" routerLink="/orders">Orders</a>
     <a class="nav-item nav-link" routerLink="/admin" *ngIf="isAdmin">Admin</a>
     <a class="nav-item nav-link" routerLink="/register" *ngIf="!token">Register</a>
     <a class="nav-item nav-link" routerLink="/login" *ngIf="!token">Login</a>

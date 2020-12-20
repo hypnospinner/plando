@@ -17,6 +17,8 @@ import { AdminLaundriesComponent } from './admin-laundries';
 import { LaundryRegistrationComponent } from './laundry-registration';
 import { AdminLaundryComponent } from './admin-laundry/admin-laundry.component';
 import { HeaderComponent } from './header/header.component';
+import { OrdersComponent } from './orders/orders.component';
+import { ManagerRegistrationComponent } from './manager-registration/manager-registration.component';
 
 @NgModule({
     imports: [
@@ -35,7 +37,10 @@ import { HeaderComponent } from './header/header.component';
         AdminServicesComponent ,
         AdminLaundriesComponent ,
         LaundryRegistrationComponent ,
-        AdminLaundryComponent],
+        AdminLaundryComponent,
+        OrdersComponent,
+        ManagerRegistrationComponent,
+    ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

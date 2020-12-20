@@ -1,0 +1,11 @@
+<div class="card mt-4">
+  <h4 class="card-header">Заказы</h4>
+  <div class="card-body">
+    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    <mat-list *ngIf="orders">
+      <mat-list-item *ngFor="let order of orders" [routerLink]="['/orders', order.id]">
+        <h4 matLine>{{order.title}}</h4>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

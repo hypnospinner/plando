@@ -11,12 +11,19 @@ import {AdminServicesComponent} from './admin-services';
 import {AdminLaundriesComponent} from './admin-laundries';
 import {AdminLaundryComponent} from '@app/admin-laundry/admin-laundry.component';
 import {LaundryRegistrationComponent} from './laundry-registration';
+import {OrdersComponent} from '@app/orders';
 
 
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'orders',
+        component: OrdersComponent,
+        canActivate: [AuthGuard],
     },
     {
         path: 'admin',

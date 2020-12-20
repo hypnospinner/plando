@@ -1,6 +1,19 @@
 <div class="card mt-4">
-  <h4 class="card-header">Зарегестрировать новую прачечную</h4>
+  <h4 class="card-header">Регистрация новой прачечной</h4>
   <div class="card-body">
-
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" />
+        <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+          <div *ngIf="f.address.errors.required">Email is required</div>
+        </div>
+      </div>
+      <button [disabled]="loading" class="btn btn-primary">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Register
+      </button>
+      <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+    </form>
   </div>
 </div>
