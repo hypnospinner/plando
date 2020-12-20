@@ -17,7 +17,7 @@ namespace Plando.Queries.Laundries
         public async Task<IEnumerable<Laundry>> HandleAsync(GetAllLaundries query)
         {
             var laundries = await _context.Laundries
-                .Include(x => x.Services)
+                // .Include(x => x.Services)
                 .Skip(query.Page * query.PerPage)
                 .Take(query.PerPage)
                 .ToListAsync();
