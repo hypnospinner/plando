@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Convey.Auth;
 using Convey.CQRS.Commands;
 using Plando.Common;
 using Plando.Models;
@@ -20,15 +21,21 @@ namespace Plando.Commands.Auth
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string? Token { get; set; } = null;
     }
 
     public class RegisterUserHandler : HandlerWithApplicationContext, ICommandHandler<RegisterUser>
     {
-        public RegisterUserHandler(ApplicationContext context) : base(context) { }
+        private readonly IJwtHandler _jwt;
+
+        public RegisterUserHandler(
+            ApplicationContext context,
+            IJwtHandler jwt) : base(context)
+            => _jwt = jwt;
 
         public async Task HandleAsync(RegisterUser command)
         {
-            _context.Users.Add(new User()
+            var user = _context.Users.Add(new User()
             {
                 FirstName = command.FirstName,
                 LastName = command.LastName,
@@ -42,6 +49,11 @@ namespace Plando.Commands.Auth
             });
 
             await _context.SaveChangesAsync();
+
+            var token = _jwt.CreateToken(userId: user.Entity.Id.ToString(),
+                                         role: UserRole.Client.ToString());
+
+            command.Token = token.AccessToken;
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Plando
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             var env = (Environment.GetEnvironmentVariable("ENVIRONMENT"));
-
+    
             if (env is PROD)
             {
                 var dbConfig = new ApplicationContextConfig();

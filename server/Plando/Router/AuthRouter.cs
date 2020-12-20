@@ -16,12 +16,14 @@ namespace Plando.Router
                         context.Response.Forbidden() :
                         context.Response.Ok(command.Token))
                 .Post<RegisterUser>(
-                    path: "auth/register"
-                )
+                    path: "auth/register",
+                    afterDispatch: (command, context) =>
+                        command.Token is null ?
+                        context.Response.Forbidden() :
+                        context.Response.Ok(command.Token))
                 .Post<RegisterManager>(
                     path: "auth/register/manager",
                     auth: true,
-                    roles: UserRole.Administrator.ToString()
-                );
+                    roles: UserRole.Administrator.ToString());
     }
 }
