@@ -22,31 +22,31 @@ const routes: Routes = [
         path: 'admin',
         component: AdminComponent,
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin] }
+        data: { roles: [Role.Administrator] }
     },
     {
       path: 'admin/laundries',
       component: AdminLaundriesComponent,
       canActivate: [AuthGuard],
-      data: { roles: [Role.Admin]}
+      data: { roles: [Role.Administrator]}
     },
     {
       path: 'admin/laundries/:id',
       component: AdminLaundryComponent,
       canActivate: [AuthGuard],
-      data: { roles: [Role.Admin]}
+      data: { roles: [Role.Administrator]}
     },
     {
       path: 'admin/services',
       component: AdminServicesComponent,
       canActivate: [AuthGuard],
-      data: { roles: [Role.Admin]}
+      data: { roles: [Role.Administrator]}
     },
     {
       path: 'register/laundry',
       component: LaundryRegistrationComponent,
       canActivate: [AuthGuard],
-      data: { roles: [Role.Admin]}
+      data: { roles: [Role.Administrator]}
     },
     {
         path: 'login',

@@ -13,11 +13,11 @@ export class AppComponent {
     }
 
     get isAdmin() {
-        return this.user && this.user.role === Role.Admin;
+        return this.user && this.user.role === Role.Administrator;
     }
 
     get isLaundry() {
-        return this.user && this.user.role === Role.LaundryManager;
+        return this.user && this.user.role === Role.Manager;
     }
 
     logout() {
