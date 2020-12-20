@@ -3,5 +3,9 @@
     <div class="card-body">
         <p *ngIf="user">Your role is: <strong>{{user.role}}</strong>.</p>
         <p>This page can be accessed by <u>all users</u>.</p>
+        <div *ngIf="errMess">
+          <h2>Error</h2>
+          <h4>{{errMess}}</h4>
+        </div>
     </div>
 </div>

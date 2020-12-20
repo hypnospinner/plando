@@ -8,6 +8,7 @@ import {UserService, AuthenticationService, ProfileService} from '@app/_services
 export class HomeComponent implements OnInit {
     loading = false;
     user: User;
+    errMess: string;
 
     constructor(
         private profileService: ProfileService,
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit {
         this.profileService.getProfile().pipe(first()).subscribe(user => {
             this.loading = false;
             this.user = user;
-        });
+        },
+            errmess => this.errMess = (errmess as any));
     }
 }
