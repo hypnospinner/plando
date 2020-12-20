@@ -20,16 +20,12 @@ import { HeaderComponent } from './header/header.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ManagerRegistrationComponent } from './manager-registration/manager-registration.component';
 
-import {MatSelectModule} from '@angular/material/select';
-
-
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule,
-        MatSelectModule
+        AppRoutingModule
     ],
     declarations: [
         HeaderComponent,

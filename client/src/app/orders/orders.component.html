@@ -7,28 +7,14 @@
         <h4 matLine>{{order.title}}</h4>
       </mat-list-item>
     </mat-list>
-    <mat-list>
-      <h2>Форма заказа</h2>
-      <form [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
-          <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-            <div *ngIf="f.title.errors.required">Title is required</div>
-          </div>
-        </div>
-        <h4>Выберите прачечную</h4>
-        <mat-form-field appearance="fill">
-          <mat-label>Прачечная</mat-label>
-          <mat-select [formControl]="laundryControl" required>
-            <mat-option>--</mat-option>
-            <mat-option *ngFor="let laundry of laundries" [value]="laundry">
-              {{laundry.address}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="laundryControl.hasError('required')">Please choose a laundry</mat-error>
-        </mat-form-field>
-      </form>
-    </mat-list>
   </div>
+  <h2>Форма заказа</h2>
+  <form [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+      <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+        <div *ngIf="f.title.errors.required">Title is required</div>
+      </div>
+    </div>
+  </form>
 </div>
