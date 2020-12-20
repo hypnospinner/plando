@@ -36,6 +36,10 @@ namespace Plando
         {
             return WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices((context, services) => services
+                    .AddCors(options => 
+                        options.AddDefaultPolicy(builder => builder
+                            .WithOrigins("*")
+                            .WithMethods("*")))
                     .AddDatabase(context.Configuration)
                     .AddConvey()
                     .AddErrorHandler<ExceptionToResponseMapper>()
@@ -51,6 +55,7 @@ namespace Plando
                     .AddJwt()
                     .Build())
                 .Configure(app => app
+                    .UseCors()
                     .UseAuthentication()
                     .UseConvey()
                     .UseErrorHandler()
