@@ -7,7 +7,6 @@ using Convey.CQRS.Queries;
 using Convey.Docs.Swagger;
 using Convey.WebApi;
 using Convey.WebApi.Swagger;
-using Convey.WebApi.Exceptions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

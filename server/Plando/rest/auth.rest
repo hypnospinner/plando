@@ -23,8 +23,8 @@ POST {{url}}/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "ilya.katun@mail.com",
-    "password": "123QWEasd!"
+    "email": "Maribel36@hotmail.com",
+    "password": "zeaeeoiaua"
 }
 
 ###
