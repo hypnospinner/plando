@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Convey.CQRS.Queries;
+using Microsoft.EntityFrameworkCore;
 using Plando.Common;
 using Plando.DTOs;
 using Plando.Models;
@@ -17,7 +18,9 @@ namespace Plando.Queries.Users
 
         public async Task<UserDTO> HandleAsync(GetProfile query)
         {
-            var user = await _context.Users.FindAsync(query.Id);
+            var user = await _context.Users
+                .Include(x => x.Identity)
+                .SingleOrDefaultAsync(x => x.Id == query.Id);
 
             return new UserDTO(user);
         }

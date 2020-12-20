@@ -18,6 +18,7 @@ namespace Plando.Queries.Users
         public async Task<IEnumerable<UserDTO>> HandleAsync(GetAllUsers query)
         {
             var users = await _context.Users
+                .Include(x => x.Identity)
                 .Skip(query.Page * query.PerPage)
                 .Take(query.PerPage)
                 .ToListAsync();
