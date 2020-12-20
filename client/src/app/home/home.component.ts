@@ -1,27 +1,24 @@
-﻿import { Component } from '@angular/core';
+﻿import {Component, OnInit} from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { User } from '@app/_models';
-import { UserService, AuthenticationService } from '@app/_services';
+import {UserService, AuthenticationService, ProfileService} from '@app/_services';
 
 @Component({ templateUrl: 'home.component.html' })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
     loading = false;
     user: User;
-    userFromApi: User;
 
     constructor(
-        private userService: UserService,
+        private profileService: ProfileService,
         private authenticationService: AuthenticationService
-    ) {
-        this.user = this.authenticationService.userValue;
-    }
+    ) { }
 
     ngOnInit() {
         this.loading = true;
-        this.userService.getById(this.user.id).pipe(first()).subscribe(user => {
+        this.profileService.getProfile().pipe(first()).subscribe(user => {
             this.loading = false;
-            this.userFromApi = user;
+            this.user = user;
         });
     }
 }

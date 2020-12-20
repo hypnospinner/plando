@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.userValue) {
+    if (this.authenticationService.tokenValue) {
       this.router.navigate(['/']);
     }
   }

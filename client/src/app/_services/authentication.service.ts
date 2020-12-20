@@ -9,44 +9,44 @@ import { User } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private userSubject: BehaviorSubject<User>;
-    public user: Observable<User>;
+    private tokenSubject: BehaviorSubject<string>;
+    public token: Observable<string>;
 
     constructor(
         private router: Router,
         private http: HttpClient
     ) {
-        this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
-        this.user = this.userSubject.asObservable();
+        this.tokenSubject = new BehaviorSubject<string>(localStorage.getItem('token'));
+        this.token = this.tokenSubject.asObservable();
     }
 
-    public get userValue(): User {
-        return this.userSubject.value;
+    public get tokenValue(): string {
+        return this.tokenSubject.getValue();
     }
 
     register(email: string, password: string) {
       return this.http.post<any>(`${environment.apiUrl}/auth/register`, { email, password })
-        .pipe( map(user => {
-            localStorage.setItem('user', JSON.stringify(user));
-            this.userSubject.next(user);
-            return user;
+        .pipe( map(token => {
+            localStorage.setItem('token', token);
+            this.tokenSubject.next(token);
+            return token;
         }));
     }
 
     login(email: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password })
-            .pipe(map(user => {
+            .pipe(map(token => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
-                this.userSubject.next(user);
-                return user;
+                localStorage.setItem('token', token);
+                this.tokenSubject.next(token);
+                return token;
             }));
     }
 
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('user');
-        this.userSubject.next(null);
+        this.tokenSubject.next(null);
         this.router.navigate(['/login']);
     }
 }
