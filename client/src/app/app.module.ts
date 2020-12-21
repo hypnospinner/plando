@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
 
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
@@ -19,11 +20,13 @@ import { AdminLaundryComponent } from './admin-laundry/admin-laundry.component';
 import { HeaderComponent } from './header/header.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ManagerRegistrationComponent } from './manager-registration/manager-registration.component';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
+        FormsModule,
         HttpClientModule,
         AppRoutingModule
     ],
@@ -40,6 +43,7 @@ import { ManagerRegistrationComponent } from './manager-registration/manager-reg
         AdminLaundryComponent,
         OrdersComponent,
         ManagerRegistrationComponent,
+        OrderComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

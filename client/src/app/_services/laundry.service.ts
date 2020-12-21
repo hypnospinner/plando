@@ -17,10 +17,11 @@ export class LaundryService {
     return this.http.get<Laundry[]>(`${environment.apiUrl}/laundries`);
   }
   getLaundry(id: string): Observable<Laundry> {
-    return this.http.get<Laundry>(`${environment.apiUrl}/laundry/${id}`);
+    const options = {id: id};
+    return this.http.get<Laundry>(`${environment.apiUrl}/laundries/${id}`, {params: options});
   }
-  deleteLaundry(id: string) {
-    return this.http.delete(`${environment.apiUrl}/laundry/${id}`);
+  deleteLaundry(id: number) {
+    return this.http.delete(`${environment.apiUrl}/laundries/${id}`);
   }
 
 }

@@ -13,6 +13,7 @@ import {AdminLaundryComponent} from '@app/admin-laundry/admin-laundry.component'
 import {LaundryRegistrationComponent} from './laundry-registration';
 import {OrdersComponent} from '@app/orders';
 import {ManagerRegistrationComponent} from '@app/manager-registration';
+import {OrderComponent} from '@app/order';
 
 
 const routes: Routes = [
@@ -24,6 +25,11 @@ const routes: Routes = [
     {
         path: 'orders',
         component: OrdersComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'orders/:id',
+        component: OrderComponent,
         canActivate: [AuthGuard],
     },
     {

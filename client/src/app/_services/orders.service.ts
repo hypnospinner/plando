@@ -15,7 +15,11 @@ export class OrdersService {
   getOrderById(id: any): Observable<Order>{
     return this.http.get<Order>(`${environment.apiUrl}/order/${id}`);
   }
-  createOrder(title: string) {
-    return this.http.post(`${environment.apiUrl}/order/create`, {title});
+  createOrder(clientId, laundryId, title: string) {
+    return this.http.post(`${environment.apiUrl}/order/create`, {
+      clientId,
+      laundryId,
+      title
+    });
   }
 }
