@@ -3,3 +3,7 @@
 ###
 
 GET {{url}}/laundries HTTP/1.1
+
+###
+
+GET {{url}}/laundries/1 HTTP/1.1

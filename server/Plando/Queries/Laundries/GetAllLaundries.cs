@@ -9,7 +9,11 @@ using Plando.Models.Laundries;
 
 namespace Plando.Queries.Laundries
 {
-    public class GetAllLaundries : PaginatedQuery, IQuery<IEnumerable<Laundry>> { }
+    public class GetAllLaundries : PaginatedQuery, IQuery<IEnumerable<Laundry>>
+    {
+        public int? UserId { get; set; } = null;
+
+    }
 
     public class GetAllLaundriesHandler : HandlerWithApplicationContext, IQueryHandler<GetAllLaundries, IEnumerable<Laundry>>
     {

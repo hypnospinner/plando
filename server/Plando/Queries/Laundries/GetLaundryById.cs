@@ -5,6 +5,9 @@ using Plando.Common;
 using Plando.Models;
 using Plando.Models.Orders;
 using Plando.Models.Laundries;
+using Microsoft.EntityFrameworkCore;
+using Plando.Models.Users;
+using Plando.Models.Services;
 
 namespace Plando.Queries.Laundries
 {
@@ -19,23 +22,86 @@ namespace Plando.Queries.Laundries
         public GetLaundryByIdHandler(ApplicationContext context) : base(context) { }
         public async Task<Laundry> HandleAsync(GetLaundryById query)
         {
-            // TODO: give information about available services for any user
-            // TODO: if user is manager or admin that also send info about opened orders 
-            var laundry = await _context.Laundries.FindAsync(query.Id);
-            if (laundry.Managers.Any(x => x.Id == query.Id))
+            if (query.UserId is null)
             {
-                var orders = _context.OrderCreatedEvents
-                                        .Where(x => x.LaundryId == query.Id).ToList();
+                var _laundry = await _context.Laundries
+                        .FirstOrDefaultAsync(x => x.Id == query.Id);
 
-                laundry.Orders = orders;
+                _laundry.Services = await _context.LaundryServices
+                    .Where(x => x.LaundryId == _laundry.Id)
+                    .Select(x => new LaundryService()
+                    {
+                        LaundryId = x.LaundryId,
+                        Service = x.Service
+                    })
+                    .ToListAsync();
+
+                return _laundry;
             }
-            var services = _context.LaundryServices
-                                        .Where(x => x.LaundryId == query.Id).ToList();
 
-            laundry.Services = services;
+            var user = await _context.Users
+                .Include(x => x.Identity)
+                .Include(x => x.Laundry)
+                .SingleOrDefaultAsync(x => x.Id == query.UserId);
 
-            return laundry;
+            switch (user.Identity.Role)
+            {
+                case UserRole.Client:
+                    var laundry1 = await _context.Laundries
+                        .FirstOrDefaultAsync(x => x.Id == query.Id);
 
+                    laundry1.Services = await _context.LaundryServices
+                        .Where(x => x.LaundryId == laundry1.Id)
+                        .Select(x => new LaundryService()
+                        {
+                            LaundryId = x.LaundryId,
+                            Service = x.Service
+                        })
+                        .ToListAsync();
+
+                    return laundry1;
+
+                case UserRole.Manager:
+                    if (user.Laundry is not null && user.LaundryId == query.Id)
+                    {
+                        var laundry2 = await _context.Laundries
+                            .Include(x => x.Orders)
+                            .FirstOrDefaultAsync(x => x.Id == query.Id);
+
+                        laundry2.Services = await _context.LaundryServices
+                            .Where(x => x.LaundryId == laundry2.Id)
+                            .Select(x => new LaundryService()
+                            {
+                                LaundryId = x.LaundryId,
+                                Service = x.Service
+                            })
+                            .ToListAsync();
+
+                        return laundry2;
+                    }
+                    else
+                    {
+                        return await _context.Laundries
+                            .FirstOrDefaultAsync(x => x.Id == query.Id);
+                    }
+                case UserRole.Administrator:
+                    var laundry = await _context.Laundries
+                            .Include(x => x.Orders)
+                            .FirstOrDefaultAsync(x => x.Id == query.Id);
+
+                    laundry.Services = await _context.LaundryServices
+                        .Where(x => x.LaundryId == laundry.Id)
+                        .Select(x => new LaundryService()
+                        {
+                            LaundryId = x.LaundryId,
+                            Service = x.Service
+                        })
+                        .ToListAsync();
+
+                    return laundry;
+            }
+
+            return null;
         }
     }
 }
