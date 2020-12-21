@@ -45,8 +45,8 @@ export class LaundryRegistrationComponent implements OnInit {
         next: () => {
           // get return url from query parameters or default to home page
           this.loading = false;
-          // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          // this.router.navigateByUrl(returnUrl);
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/laundries';
+          this.router.navigateByUrl(returnUrl);
         },
         error: error => {
           this.error = error;

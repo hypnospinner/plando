@@ -18,6 +18,12 @@ export class OrdersService {
   cancelOrder(orderId: any) {
     return this.http.post(`${environment.apiUrl}/order/cancel`, {orderId});
   }
+  progressOrder(orderId: any){
+    return this.http.post(`${environment.apiUrl}/order/progress`, {orderId});
+  }
+  finishOrder(orderId: any){
+    return this.http.post(`${environment.apiUrl}/order/finish`, {orderId});
+  }
   passOrder(orderId: any) {
     return this.http.post(`${environment.apiUrl}/order/pass`, {orderId});
   }
