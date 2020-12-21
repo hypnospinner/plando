@@ -1,0 +1,29 @@
+<div class="card mt-4">
+  <h4 class="card-header">Заказы</h4>
+  <div class="card-body">
+    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    <mat-list *ngIf="orders">
+      <mat-list-item *ngFor="let order of orders" [routerLink]="['/orders', order.id]">
+        <h4 matLine>{{order.title}}</h4>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <h2>Форма заказа</h2>
+  <form [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <h4>Title</h4>
+      <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+      <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+        <div *ngIf="f.title.errors.required">Title is required</div>
+      </div>
+      <select formControlName="laundrySelect" (change)="onSelectedLaundryChanged()">
+        <option *ngFor="let laundry of laundries" [ngValue]="laundry">{{laundry.address}}</option>
+      </select>
+    </div>
+    <button [disabled]="loading" class="btn btn-primary">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Заказать
+    </button>
+    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+  </form>
+</div>

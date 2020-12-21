@@ -1,0 +1,15 @@
+<div class="card mt-4">
+  <h4 class="card-header">Информация о заказе</h4>
+  <div class="card-body">
+    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    <div *ngIf="order">
+<!--      Адрес прачечной: {{laundry.address}} <br>-->
+      Название заказа: {{order.title}} <br>
+      Статус заказа: {{order.status}} <br>
+      Стоимость заказа: {{order.price}} <br>
+      <p *ngFor="let service of order.services">{{service.name}}</p>
+    </div>
+    <button (click)="cancelOrder()">Отменить заказ</button>
+    <button (click)="passOrder()">Завершить заказ</button>
+  </div>
+</div>

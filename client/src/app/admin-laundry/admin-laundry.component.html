@@ -1,5 +1,10 @@
 <div class="card mt-4">
-  <h4 class="card-header">Список прачечных</h4>
+  <h4 class="card-header">Информация о прачечной</h4>
   <div class="card-body">
+    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    <div *ngIf="laundry">
+      {{laundry.address}}
+      <button (click)="deleteThisLaundry()">Удалить прачечную</button>
+    </div>
   </div>
 </div>
