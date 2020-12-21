@@ -1,8 +1,9 @@
 import { Service } from '@app/_models/service';
 
-enum Status {
-  waiting,
+export enum Status {
+  new,
   inProgress ,
+  finished,
   passed,
 }
 
@@ -11,7 +12,7 @@ export class Order {
   laundryId: number;
   clientId: number;
   title: string;
-  status: Status;
+  status: string;
   price: number;
   services: Service[];
 }

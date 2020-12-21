@@ -16,9 +16,8 @@ export class LaundryService {
   getAll(): Observable<Laundry[]> {
     return this.http.get<Laundry[]>(`${environment.apiUrl}/laundries`);
   }
-  getLaundry(id: string): Observable<Laundry> {
-    const options = {id: id};
-    return this.http.get<Laundry>(`${environment.apiUrl}/laundries/${id}`, {params: options});
+  getLaundry(id: any): Observable<Laundry> {
+    return this.http.get<Laundry>(`${environment.apiUrl}/laundries/${id}`);
   }
   deleteLaundry(id: number) {
     return this.http.delete(`${environment.apiUrl}/laundries/${id}`);

@@ -12,7 +12,8 @@ import {first} from 'rxjs/operators';
 })
 export class OrdersComponent implements OnInit {
   user: User;
-  loading: boolean;
+  errMess;
+  loading = false;
   token: string;
   orders: Order[];
   createOrderForm: FormGroup;
@@ -29,14 +30,18 @@ export class OrdersComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.token = this.authService.tokenValue;
     this.profileService.getProfile().pipe(first()).subscribe(user => {
         this.loading = false;
         this.user = user;
       });
-    this.ordersService.getOrders().pipe(first()).subscribe(orders => this.orders = orders);
+    this.ordersService.getOrders().pipe(first()).subscribe(orders => {
+      this.orders = orders;
+    }, errMess => this.errMess = errMess);
     this.laundryService.getAll().pipe(first())
       .subscribe(laundries => this.laundries = laundries);
+    this.loading = false;
     this.createOrderForm = this.formBuilder.group({
       title: ['', Validators.required],
       laundrySelect: ['', Validators.required]

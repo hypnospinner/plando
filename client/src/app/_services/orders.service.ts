@@ -15,6 +15,12 @@ export class OrdersService {
   getOrderById(id: any): Observable<Order>{
     return this.http.get<Order>(`${environment.apiUrl}/order/${id}`);
   }
+  cancelOrder(orderId: any) {
+    return this.http.post(`${environment.apiUrl}/order/cancel`, {orderId});
+  }
+  passOrder(orderId: any) {
+    return this.http.post(`${environment.apiUrl}/order/pass`, {orderId});
+  }
   createOrder(clientId, laundryId, title: string) {
     return this.http.post(`${environment.apiUrl}/order/create`, {
       clientId,
