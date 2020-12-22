@@ -41,6 +41,16 @@ namespace Plando.Router
 
                         return Task.CompletedTask;
                     },
-                    auth: true);
+                    auth: true)
+                .Get<GetFreeManagers, IEnumerable<UserDTO>>(
+                    path: "freeManagers",
+                    auth: true,
+                    roles: UserRole.Administrator.ToString()
+                )
+                .Get<GetBusyManagers, IEnumerable<UserDTO>>(
+                    path: "busyManagers",
+                    auth: true,
+                    roles: UserRole.Administrator.ToString()
+                );
     }
 }

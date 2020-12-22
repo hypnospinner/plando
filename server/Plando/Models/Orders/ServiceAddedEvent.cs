@@ -2,6 +2,7 @@ using System;
 using Plando.Common;
 using Plando.Models.Services;
 
+
 namespace Plando.Models.Orders
 {
     public class ServiceAddedEvent : EventBase, IAggregator<Order>
@@ -28,6 +29,6 @@ namespace Plando.Models.Orders
             aggregate.Price += Service.Price;
 
             return aggregate;
-        }
+    }
     }
 }
