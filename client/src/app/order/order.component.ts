@@ -29,8 +29,16 @@ export class OrderComponent implements OnInit {
             this.laundryService.getLaundry(order.laundryId).subscribe(laundry => {
               this.laundry = laundry;
               this.loading = false;
-            }, errmess => this.errMess = errmess);
-          }, errmess => this.errMess = (errmess as any));
+            }, errmess => {
+              this.errMess = errmess;
+              const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/orders';
+              this.router.navigateByUrl(returnUrl);
+            });
+          }, errmess => {
+          this.errMess = errmess as any;
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/orders';
+          this.router.navigateByUrl(returnUrl);
+        });
       this.profileService.getProfile()
         .subscribe(user => this.user = user, error => this.errMess = error);
   }
