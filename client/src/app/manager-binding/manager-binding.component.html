@@ -30,7 +30,7 @@
           <option *ngFor="let manager of busyManagers" [ngValue]="manager">{{manager.email}}</option>
         </select>
       </div>
-      <button [disabled]="!employManagerForm.valid" class="btn btn-primary">
+      <button [disabled]="!dismissManagerForm.valid" class="btn btn-primary">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         Отвязать
       </button>

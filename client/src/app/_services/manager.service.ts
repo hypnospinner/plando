@@ -12,10 +12,10 @@ export class ManagerService {
   constructor(private http: HttpClient) { }
 
   getFreeManagers(): Observable<User[]>{
-    return this.http.get<User[]>(`${environment.apiUrl}/users/freeManagers`);
+    return this.http.get<User[]>(`${environment.apiUrl}/freeManagers`);
   }
   getBusyManagers(): Observable<User[]>{
-    return this.http.get<User[]>(`${environment.apiUrl}/users/busyManagers`);
+    return this.http.get<User[]>(`${environment.apiUrl}/busyManagers`);
   }
   dismiss(managerId) {
     return this.http.post(`${environment.apiUrl}/laundry/dismiss`, {managerId});
