@@ -17,6 +17,7 @@ export class ManagerBindingComponent implements OnInit {
   selectedDismissManager: User[];
 
   dismissManagerForm: FormGroup;
+  employManagerForm: FormGroup;
   loading = false;
   errMess: string;
   constructor(private laundryService: LaundryService,
@@ -43,12 +44,28 @@ export class ManagerBindingComponent implements OnInit {
     this.dismissManagerForm = this.formBuilder.group({
       dismissManagerSelect: ['', Validators.required],
     });
+    this.employManagerForm = this.formBuilder.group({
+      employManagerSelect: ['', Validators.required],
+      laundrySelect: ['', Validators.required]
+    });
   }
   get dismissControls() { return this.dismissManagerForm.controls; }
+  get employControls() { return this.employManagerForm.controls; }
   onSelectedDismissManagerChanged(){
     this.selectedDismissManager = this.dismissControls.dismissManagerSelect.value;
   }
   onDismissSubmit(){
-    return;
+    this.managerService.dismiss(this.selectedDismissManager)
+      .subscribe(resp => {}, errmess => this.errMess = errmess);
+  }
+  onSelectedEmployManagerChanged(){
+    this.selectedEmployManager = this.employControls.employManagerSelect.value;
+  }
+  onSelectedLaundryChanged(){
+    this.selectedLaundry = this.employControls.laundrySelect.value;
+  }
+  onEmploySubmit(){
+    this.managerService.employ(this.selectedEmployManager, this.selectedLaundry)
+      .subscribe(resp => {}, errmess => this.errMess = errmess);
   }
 }

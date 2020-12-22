@@ -1,9 +1,23 @@
 <div class="card mt-4">
   <h4 class="card-header">Привязать менеджера к прачечной</h4>
   <div class="card-body">
-    <h6>Выберите свободного менеджера</h6>
-    <h6>Выберите прачечную</h6>
-
+    <form [formGroup]="employManagerForm" (ngSubmit)="onEmploySubmit()">
+      <div class="form-group">
+        <h6>Выберите свободного менеджера</h6>
+        <select formControlName="employManagerSelect" (change)="onSelectedEmployManagerChanged()">
+          <option *ngFor="let manager of freeManagers" [ngValue]="manager">{{manager.email}}</option>
+        </select>
+        <h6>Выберите прачечную</h6>
+        <select formControlName="laundrySelect" (change)="onSelectedLaundryChanged()">
+          <option *ngFor="let laundry of laundries" [ngValue]="laundry">{{laundry.address}}</option>
+        </select>
+      </div>
+      <button [disabled]="!employManagerForm.valid" class="btn btn-primary">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Привязать
+      </button>
+      <div *ngIf="errMess" class="alert alert-danger mt-3 mb-0">{{errMess}}</div>
+    </form>
   </div>
 </div>
 <div class="card mt-4">
@@ -13,10 +27,10 @@
       <div class="form-group">
         <h6>Выберите менеджера, которого хотите отвязать</h6>
         <select formControlName="dismissManagerSelect" (change)="onSelectedDismissManagerChanged()">
-          <option *ngFor="let manager of freeManagers" [ngValue]="manager">{{manager.email}}</option>
+          <option *ngFor="let manager of busyManagers" [ngValue]="manager">{{manager.email}}</option>
         </select>
       </div>
-      <button [disabled]="loading" class="btn btn-primary">
+      <button [disabled]="!employManagerForm.valid" class="btn btn-primary">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         Отвязать
       </button>
