@@ -1,0 +1,27 @@
+<div class="card mt-4">
+  <h4 class="card-header">Привязать менеджера к прачечной</h4>
+  <div class="card-body">
+    <h6>Выберите свободного менеджера</h6>
+    <h6>Выберите прачечную</h6>
+
+  </div>
+</div>
+<div class="card mt-4">
+  <h4 class="card-header">Отвязать менеджера от прачечной</h4>
+  <div class="card-body">
+    <form [formGroup]="dismissManagerForm" (ngSubmit)="onDismissSubmit()">
+      <div class="form-group">
+        <h6>Выберите менеджера, которого хотите отвязать</h6>
+        <select formControlName="dismissManagerSelect" (change)="onSelectedDismissManagerChanged()">
+          <option *ngFor="let manager of freeManagers" [ngValue]="manager">{{manager.email}}</option>
+        </select>
+      </div>
+      <button [disabled]="loading" class="btn btn-primary">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Отвязать
+      </button>
+      <div *ngIf="errMess" class="alert alert-danger mt-3 mb-0">{{errMess}}</div>
+    </form>
+
+  </div>
+</div>
