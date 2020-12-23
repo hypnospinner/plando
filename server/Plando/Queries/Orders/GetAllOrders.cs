@@ -5,9 +5,7 @@ using Plando.Common;
 using Plando.Models.Users;
 using Plando.Models.Orders;
 using Microsoft.EntityFrameworkCore;
-
 using static Plando.Common.TypedException;
-
 using Plando.Models;
 
 namespace Plando.Queries.Orders
