@@ -3,7 +3,7 @@
   <div class="card-body">
     <div *ngIf="loadingOrders" class="spinner-border spinner-border-sm"></div>
     <mat-list *ngIf="orders">
-      <mat-list-item *ngFor="let order of orders" [routerLink]="['/order', order.id]">
+      <mat-list-item *ngFor="let order of orders" [routerLink]="['/orders', order.id]">
         <h4 matLine>{{order.title}}</h4>
       </mat-list-item>
     </mat-list>

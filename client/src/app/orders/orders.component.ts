@@ -59,15 +59,11 @@ export class OrdersComponent implements OnInit {
     }
     this.loading = true;
     this.ordersService.createOrder(this.user.id, this.selectedLaundry.id, this.f.title.value)
-      .pipe(first())
-      .subscribe({
-        next: () => {
+      .subscribe(order => {
           this.loading = false;
-        },
-        error: error => {
+          window.location.reload();
+      }, error => {
           this.error = error;
-          this.loading = false;
-        }
-      });
+          this.loading = false; });
   }
 }

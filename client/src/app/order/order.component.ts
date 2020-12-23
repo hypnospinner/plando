@@ -29,7 +29,6 @@ export class OrderComponent implements OnInit {
       this.route.params.pipe(switchMap((params: Params) => this.ordersService.getOrderById(params['id']) ))
         .subscribe(order => {
             this.order = order;
-            console.log(order.services);
             this.laundryService.getLaundry(order.laundryId).subscribe(laundry => {
               this.laundry = laundry;
               this.loading = false;
@@ -51,12 +50,16 @@ export class OrderComponent implements OnInit {
   }
   removeService(serviceId, orderId){
     this.ordersService.removeService(serviceId, orderId)
-      .subscribe(resp => {});
+      .subscribe(service => {
+
+      });
   }
   addService(serviceId, orderId) {
     this.ordersService.addService(serviceId, orderId)
       .subscribe(service => {
-        this.order.services.push(service);
+        if (service){
+          this.order.services.push(service);
+        }
       });
   }
   cancelOrder() {

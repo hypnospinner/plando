@@ -10,15 +10,17 @@ import {environment} from '@environments/environment';
 export class OrdersService {
   constructor(private http: HttpClient) {}
   getOrders(): Observable<Order[]>{
-    return this.http.get<Order[]>(`${environment.apiUrl}/order`);
+    return this.http.get<Order[]>(`${environment.apiUrl}/orders`);
   }
   getOrderById(id: any): Observable<Order>{
     return this.http.get<Order>(`${environment.apiUrl}/order/${id}`);
   }
   addService(serviceId, orderId): Observable<ServiceInOrder> {
+    console.log(serviceId + ' ' + orderId);
     return this.http.post<ServiceInOrder>(`${environment.apiUrl}/order/service/add`, {serviceId, orderId});
   }
   removeService(serviceId, orderId){
+    console.log(serviceId + ' ' + orderId);
     return this.http.post(`${environment.apiUrl}/order/service/remove`, {serviceId, orderId});
   }
   completeService(serviceId, orderId){
