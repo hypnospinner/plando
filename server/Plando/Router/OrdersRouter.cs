@@ -104,6 +104,17 @@ namespace Plando.Router
 
                         return Task.CompletedTask;
                     },
-                    auth: true);
+                    auth: true)
+                .Get<GetAllOrders, IEnumerable<Order>>(
+                    path: "orders",
+                    beforeDispatch: (command, context) =>
+                    {
+                        var id = context.GetUserId();
+                        command.UserId = id;
+
+                        return Task.CompletedTask;
+                    },
+                    auth: true
+                );
+
     }
-}
