@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LaundryService, OrdersService, ProfileService, ServiceService} from '@app/_services';
-import {Laundry, Order, Service, User} from '@app/_models';
+import {EnabledService, Laundry, Order, Service, User} from '@app/_models';
 
 @Component({
   selector: 'app-managing-laundry',
@@ -11,10 +11,11 @@ export class ManagingLaundryComponent implements OnInit {
   laundry: Laundry;
   orders: Order[];
   loadingOrders = false;
-  services: Service[];
+  services: EnabledService[];
   loadingServices = false;
   loading = false;
   errMess: string;
+  availableServices: Set<Service>;
   constructor(private profileService: ProfileService,
               private orderService: OrdersService,
               private serviceService: ServiceService,
@@ -28,6 +29,18 @@ export class ManagingLaundryComponent implements OnInit {
         this.laundryService.getLaundry(this.me.laundryId)
           .subscribe(laundry => {
             this.laundry = laundry;
+            this.services = this.laundry.services;
+            this.serviceService.getAll()
+              .subscribe(allServices => {
+                allServices.forEach(service => {
+                  let idx = this.services.findIndex((item, index, array) => {
+                    return item.service.id === service.id;
+                  });
+                  if (idx === -1){
+                    this.availableServices.add(service);
+                  }
+                });
+              }, error => this.errMess = error);
             this.loading = false;
           }, error => this.errMess = error);
       }, error => this.errMess = error);
@@ -38,11 +51,7 @@ export class ManagingLaundryComponent implements OnInit {
         this.loadingOrders = false;
       }, error => this.errMess = error);
     this.loadingServices = true;
-    this.serviceService.getAll()
-      .subscribe(services => {
-        this.services = services;
-        this.loadingServices = false;
-      }, error => this.errMess = error);
+
   }
 
 }

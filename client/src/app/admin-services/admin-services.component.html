@@ -1,6 +1,11 @@
 <div class="card mt-4">
   <h4 class="card-header">Сервисы</h4>
   <div class="card-body">
-
+    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    <mat-list *ngIf="services">
+      <mat-list-item *ngFor="let service of services">
+        <h4 matLine>{{service.title}}</h4>
+      </mat-list-item>
+    </mat-list>
   </div>
 </div>

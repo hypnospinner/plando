@@ -25,8 +25,8 @@
     <div *ngIf="services">
       <h5>Добавить сервис из доступных:</h5>
       <h6 *ngIf="services.length==0">Нет доступных сервисов</h6>
-      <mat-list *ngIf="services">
-        <mat-list-item *ngFor="let service of services">
+      <mat-list *ngIf="availableServices">
+        <mat-list-item *ngFor="let service of availableServices">
           <h6 matLine><button type="button" class="btn btn-primary" >{{service.title}}</button></h6>
         </mat-list-item>
       </mat-list>
