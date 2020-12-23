@@ -14,7 +14,7 @@ export class ManagerBindingComponent implements OnInit {
   selectedLaundry: Laundry;
 
   busyManagers: User[];
-  selectedDismissManager: User[];
+  selectedDismissManager: User;
 
   dismissManagerForm: FormGroup;
   employManagerForm: FormGroup;
@@ -55,7 +55,7 @@ export class ManagerBindingComponent implements OnInit {
     this.selectedDismissManager = this.dismissControls.dismissManagerSelect.value;
   }
   onDismissSubmit(){
-    this.managerService.dismiss(this.selectedDismissManager)
+    this.managerService.dismiss(this.selectedDismissManager.id)
       .subscribe(resp => {}, errmess => this.errMess = errmess);
   }
   onSelectedEmployManagerChanged(){
@@ -65,7 +65,7 @@ export class ManagerBindingComponent implements OnInit {
     this.selectedLaundry = this.employControls.laundrySelect.value;
   }
   onEmploySubmit(){
-    this.managerService.employ(this.selectedEmployManager, this.selectedLaundry)
+    this.managerService.employ(this.selectedEmployManager.id, this.selectedLaundry.id)
       .subscribe(resp => {}, errmess => this.errMess = errmess);
   }
 }
