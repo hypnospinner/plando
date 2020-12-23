@@ -10,6 +10,7 @@ import {LaundryService, OrdersService, ProfileService} from '@app/_services';
 })
 export class OrderComponent implements OnInit {
   loading = false;
+  loadingProfile = false;
   errMess: string;
   user: User;
   order: Order;
@@ -23,6 +24,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit(): void {
       this.loading = true;
+      this.loadingProfile = true;
       this.route.params.pipe(switchMap((params: Params) => this.ordersService.getOrderById(params['id']) ))
         .subscribe(order => {
             this.order = order;
@@ -40,7 +42,10 @@ export class OrderComponent implements OnInit {
           this.router.navigateByUrl(returnUrl);
         });
       this.profileService.getProfile()
-        .subscribe(user => this.user = user, error => this.errMess = error);
+        .subscribe(user => {
+          this.user = user;
+          this.loadingProfile = false;
+        }, error => this.errMess = error);
   }
   cancelOrder() {
     if (this.user && this.user.role === Role.Client && this.order.status === 'new'){
@@ -54,19 +59,26 @@ export class OrderComponent implements OnInit {
   progressOrder(){
     if (this.user && this.user.role === Role.Manager && this.order.status === 'new'){
       this.ordersService.progressOrder(this.order.id)
-        .subscribe(resp => {}, error => this.errMess = error);
+        .subscribe(resp => {
+          this.order.status = 'iN_PROGRESS';
+        }, error => this.errMess = error);
     }
   }
   finishOrder(){
-    if (this.user && this.user.role === Role.Manager && this.order.status === 'in_progress'){
+    if (this.user && this.user.role === Role.Manager && this.order.status === 'iN_PROGRESS'){
       this.ordersService.finishOrder(this.order.id)
-        .subscribe(resp => {}, error => this.errMess = error);
+        .subscribe(resp => {
+          this.order.status = 'finished';
+        }, error => this.errMess = error);
     }
 
   }
   passOrder() {
     if (this.user && this.user.role === Role.Client && this.order.status === 'finished'){
-      this.ordersService.passOrder(this.order.id);
+      this.ordersService.passOrder(this.order.id)
+        .subscribe(resp => {
+          this.order.status = 'passed';
+        }, error => this.errMess = error);
     }
   }
 }

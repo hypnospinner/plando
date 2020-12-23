@@ -9,7 +9,11 @@
       Стоимость заказа: {{order.price}} <br>
       <p *ngFor="let service of order.services">{{service.name}}</p>
     </div>
-    <button (click)="cancelOrder()">Отменить заказ</button>
-    <button (click)="passOrder()">Завершить заказ</button>
+    <div *ngIf="!loadingProfile">
+      <button type="button" class="btn btn-primary" *ngIf="user.role=='client'" (click)="cancelOrder()">Отменить заказ</button>
+      <button type="button" class="btn btn-primary" *ngIf="user.role=='client'" (click)="passOrder()">Закрыть заказ</button>
+      <button type="button" class="btn btn-primary" *ngIf="user.role=='manager'" (click)="progressOrder()">Активировать работу заказа</button>
+      <button type="button" class="btn btn-primary" *ngIf="user.role=='manager'" (click)="finishOrder()">Завершить заказ</button>
+    </div>
   </div>
 </div>
