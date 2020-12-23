@@ -13,8 +13,7 @@
       <h6 *ngIf="order.services.length==0">Нет добавленных сервисов</h6>
       <mat-list>
         <mat-list-item *ngFor="let service of order.services">
-          <h6 matLine>{{service.name}}</h6>
-          <button type="button" class="btn btn-primary" (click)="removeService(service.id)"></button>
+          <h6 matLine><button type="button" class="btn btn-primary" (click)="removeService(service.id, order.id)">{{service.name}}</button></h6>
         </mat-list-item>
       </mat-list>
     </div>
@@ -23,8 +22,7 @@
       <h6 *ngIf="laundry && laundry.services.length==0">Нет доступных сервисов</h6>
       <mat-list *ngIf="laundry">
         <mat-list-item *ngFor="let service of laundry.services">
-          <h6 matLine>{{service.id}}</h6>
-          <button type="button" class="btn btn-primary" (click)="addService(service.id)"></button>
+          <h6 matLine><button type="button" class="btn btn-primary" (click)="addService(service.service.id, order.id)">{{service.service.title}}</button></h6>
         </mat-list-item>
       </mat-list>
     </div>

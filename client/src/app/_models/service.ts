@@ -1,6 +1,9 @@
+import {Laundry} from '@app/_models/laundry';
+
 export class Service {
   id: number;
-  name: string;
-  done: boolean;
+  title: string;
+  laundries: Laundry[];
   price: number;
+  serviceAddedEvents: any;
 }

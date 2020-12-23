@@ -3,6 +3,8 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {Laundry, Order, Role, Service, User} from '@app/_models';
 import {LaundryService, OrdersService, ProfileService} from '@app/_services';
+import {HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-order',
@@ -27,9 +29,9 @@ export class OrderComponent implements OnInit {
       this.route.params.pipe(switchMap((params: Params) => this.ordersService.getOrderById(params['id']) ))
         .subscribe(order => {
             this.order = order;
+            console.log(order.services);
             this.laundryService.getLaundry(order.laundryId).subscribe(laundry => {
               this.laundry = laundry;
-              console.log(this.laundry.services);
               this.loading = false;
             }, errmess => {
               this.errMess = errmess;
@@ -47,11 +49,15 @@ export class OrderComponent implements OnInit {
           this.loadingProfile = false;
         }, error => this.errMess = error);
   }
-  removeService(serviceId){
-    this.ordersService.removeService(serviceId);
+  removeService(serviceId, orderId){
+    this.ordersService.removeService(serviceId, orderId)
+      .subscribe(resp => {});
   }
-  addService(serviceId){
-    this.ordersService.addService(serviceId);
+  addService(serviceId, orderId) {
+    this.ordersService.addService(serviceId, orderId)
+      .subscribe(service => {
+        this.order.services.push(service);
+      });
   }
   cancelOrder() {
     if (this.user && this.user.role === Role.Client && this.order.status === 'new'){
