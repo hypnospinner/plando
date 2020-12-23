@@ -1,4 +1,5 @@
 import { Service } from '@app/_models/service';
+import {ServiceInOrder} from '@app/_models/serviceInOrder';
 
 export enum Status {
   new,
@@ -14,5 +15,5 @@ export class Order {
   title: string;
   status: string;
   price: number;
-  services: Service[];
+  services: ServiceInOrder[];
 }

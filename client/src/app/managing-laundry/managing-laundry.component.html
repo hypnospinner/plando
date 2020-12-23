@@ -13,11 +13,24 @@
   <h4 class="card-header">Управление сервисами прачечной</h4>
   <div class="card-body">
     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-    <mat-list *ngIf="services">
-      <mat-list-item *ngFor="let service of services">
-        <h4 matLine>{{service.name}}</h4>
-        <button type="button" class="btn btn-primary">Добавить сервис</button>
-      </mat-list-item>
-    </mat-list>
+    <div *ngIf="laundry">
+      <h5>Сервисы прачечной:</h5>
+      <h6 *ngIf="laundry.services.length==0">Нет добавленных сервисов</h6>
+      <mat-list>
+        <mat-list-item *ngFor="let service of laundry.services">
+          <h6 matLine><button type="button" class="btn btn-primary">{{service.service.title}}</button>  </h6>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div *ngIf="services">
+      <h5>Добавить сервис из доступных:</h5>
+      <h6 *ngIf="services.length==0">Нет доступных сервисов</h6>
+      <mat-list *ngIf="services">
+        <mat-list-item *ngFor="let service of services">
+          <h6 matLine><button type="button" class="btn btn-primary" >{{service.title}}</button></h6>
+        </mat-list-item>
+      </mat-list>
+    </div>
   </div>
+
 </div>

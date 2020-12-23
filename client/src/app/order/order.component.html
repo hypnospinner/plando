@@ -8,21 +8,21 @@
       Статус заказа: {{order.status}} <br>
       Стоимость заказа: {{order.price}} <br>
     </div>
-    <div *ngIf="order && order.services">
-      <h5>Добавленные сервисы</h5>
+    <div *ngIf="user && user.role==='client' && order && order.services">
+      <h5>Добавленные сервисы:</h5>
+      <h6 *ngIf="order.services.length==0">Нет добавленных сервисов</h6>
       <mat-list>
         <mat-list-item *ngFor="let service of order.services">
-          <h6 matLine>{{service.name}}</h6>
-          <button type="button" class="btn btn-primary" (click)="removeService(service.id)"></button>
+          <h6 matLine><button type="button" class="btn btn-primary" (click)="removeService(service.id, order.id)">{{service.name}}</button></h6>
         </mat-list-item>
       </mat-list>
     </div>
-    <div *ngIf="order && order.services">
-      <h5>Добавить сервис из достпуных:</h5>
-      <mat-list>
-        <mat-list-item *ngFor="let service of order.services">
-          <h6 matLine>{{service.name}}</h6>
-          <button type="button" class="btn btn-primary" (click)="addService(service.id)"></button>
+    <div *ngIf="user && user.role==='client' && order && order.services">
+      <h5>Добавить сервис из доступных:</h5>
+      <h6 *ngIf="laundry && laundry.services.length==0">Нет доступных сервисов</h6>
+      <mat-list *ngIf="laundry">
+        <mat-list-item *ngFor="let service of laundry.services">
+          <h6 matLine><button type="button" class="btn btn-primary" (click)="addService(service.service.id, order.id)">{{service.service.title}}</button></h6>
         </mat-list-item>
       </mat-list>
     </div>
