@@ -56,7 +56,7 @@ export class ManagerBindingComponent implements OnInit {
   }
   onDismissSubmit(){
     this.managerService.dismiss(this.selectedDismissManager.id)
-      .subscribe(resp => {}, errmess => this.errMess = errmess);
+      .subscribe(resp => { window.location.reload(); }, errmess => this.errMess = errmess);
   }
   onSelectedEmployManagerChanged(){
     this.selectedEmployManager = this.employControls.employManagerSelect.value;
@@ -66,6 +66,6 @@ export class ManagerBindingComponent implements OnInit {
   }
   onEmploySubmit(){
     this.managerService.employ(this.selectedEmployManager.id, this.selectedLaundry.id)
-      .subscribe(resp => {}, errmess => this.errMess = errmess);
+      .subscribe(resp => { window.location.reload(); }, errmess => this.errMess = errmess);
   }
 }
