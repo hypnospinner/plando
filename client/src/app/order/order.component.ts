@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
-import {Laundry, Order, Role, User} from '@app/_models';
+import {Laundry, Order, Role, Service, User} from '@app/_models';
 import {LaundryService, OrdersService, ProfileService} from '@app/_services';
 
 @Component({
@@ -15,7 +15,6 @@ export class OrderComponent implements OnInit {
   user: User;
   order: Order;
   laundry: Laundry;
-
   constructor(private route: ActivatedRoute,
               private ordersService: OrdersService,
               private laundryService: LaundryService,
@@ -46,6 +45,12 @@ export class OrderComponent implements OnInit {
           this.user = user;
           this.loadingProfile = false;
         }, error => this.errMess = error);
+  }
+  removeService(serviceId){
+    this.ordersService.removeService(serviceId);
+  }
+  addService(serviceId){
+    this.ordersService.addService(serviceId);
   }
   cancelOrder() {
     if (this.user && this.user.role === Role.Client && this.order.status === 'new'){

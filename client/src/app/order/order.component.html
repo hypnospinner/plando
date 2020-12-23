@@ -2,14 +2,32 @@
   <h4 class="card-header">Информация о заказе</h4>
   <div class="card-body">
     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-    <div *ngIf="order">
-<!--      Адрес прачечной: {{laundry.address}} <br>-->
+    <div *ngIf="order && laundry">
+      Адрес прачечной: {{laundry.address}} <br>
       Название заказа: {{order.title}} <br>
       Статус заказа: {{order.status}} <br>
       Стоимость заказа: {{order.price}} <br>
-      <p *ngFor="let service of order.services">{{service.name}}</p>
+    </div>
+    <div *ngIf="order && order.services">
+      <h5>Добавленные сервисы</h5>
+      <mat-list>
+        <mat-list-item *ngFor="let service of order.services">
+          <h6 matLine>{{service.name}}</h6>
+          <button type="button" class="btn btn-primary" (click)="removeService(service.id)"></button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div *ngIf="order && order.services">
+      <h5>Добавить сервис из достпуных:</h5>
+      <mat-list>
+        <mat-list-item *ngFor="let service of order.services">
+          <h6 matLine>{{service.name}}</h6>
+          <button type="button" class="btn btn-primary" (click)="addService(service.id)"></button>
+        </mat-list-item>
+      </mat-list>
     </div>
     <div *ngIf="!loadingProfile">
+      <h5>Управление заказом</h5>
       <button type="button" class="btn btn-primary" *ngIf="user.role=='client'" (click)="cancelOrder()">Отменить заказ</button>
       <button type="button" class="btn btn-primary" *ngIf="user.role=='client'" (click)="passOrder()">Закрыть заказ</button>
       <button type="button" class="btn btn-primary" *ngIf="user.role=='manager'" (click)="progressOrder()">Активировать работу заказа</button>

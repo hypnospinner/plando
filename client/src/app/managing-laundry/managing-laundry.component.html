@@ -1,0 +1,23 @@
+<div class="card mt-4">
+  <h4 class="card-header">Управление заказами прачечной</h4>
+  <div class="card-body">
+    <div *ngIf="loadingOrders" class="spinner-border spinner-border-sm"></div>
+    <mat-list *ngIf="orders">
+      <mat-list-item *ngFor="let order of orders" [routerLink]="['/order', order.id]">
+        <h4 matLine>{{order.title}}</h4>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
+<div class="card mt-4">
+  <h4 class="card-header">Управление сервисами прачечной</h4>
+  <div class="card-body">
+    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    <mat-list *ngIf="services">
+      <mat-list-item *ngFor="let service of services">
+        <h4 matLine>{{service.name}}</h4>
+        <button type="button" class="btn btn-primary">Добавить сервис</button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

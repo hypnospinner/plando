@@ -21,7 +21,8 @@ import { HeaderComponent } from './header/header.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ManagerRegistrationComponent } from './manager-registration/manager-registration.component';
 import { OrderComponent } from './order/order.component';
-import { ManagerBindingComponent } from './manager-binding/manager-binding.component';
+import { ManagerBindingComponent } from './manager-binding/manager-binding.component';;
+import { ManagingLaundryComponent } from './managing-laundry/managing-laundry.component'
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import { ManagerBindingComponent } from './manager-binding/manager-binding.compo
         ManagerRegistrationComponent,
         OrderComponent,
         ManagerBindingComponent
-    ],
+,
+        ManagingLaundryComponent    ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

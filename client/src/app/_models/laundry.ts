@@ -7,6 +7,6 @@ export class Laundry {
   id: number;
   address: string;
   orders: Order[];
-  services: Service;
+  services: Service[];
   managers: User;
 }

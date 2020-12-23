@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
     return this.token && this.role === Role.Administrator;
   }
 
-  get isLaundry() {
+  get isManager() {
     return this.token && this.role === Role.Manager;
   }
 
