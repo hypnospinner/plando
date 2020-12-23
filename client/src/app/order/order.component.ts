@@ -29,6 +29,7 @@ export class OrderComponent implements OnInit {
             this.order = order;
             this.laundryService.getLaundry(order.laundryId).subscribe(laundry => {
               this.laundry = laundry;
+              console.log(this.laundry.services);
               this.loading = false;
             }, errmess => {
               this.errMess = errmess;
