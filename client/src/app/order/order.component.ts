@@ -82,6 +82,12 @@ export class OrderComponent implements OnInit {
         this.availableServices.delete(el);
         if (service){
           this.selectedServices.add(service);
+        } else {
+          let newServiceInOrder = new ServiceInOrder();
+          newServiceInOrder.id = serviceId;
+          newServiceInOrder.name = el.title;
+          newServiceInOrder.price = el.price;
+          this.selectedServices.add(newServiceInOrder);
         }
       });
   }
