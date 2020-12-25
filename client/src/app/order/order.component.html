@@ -8,16 +8,25 @@
       Статус заказа: {{order.status}} <br>
       Стоимость заказа: {{order.price}} <br>
     </div>
-    <div *ngIf="user && user.role==='client' && order && order.services">
+    <div *ngIf="user && order && order.services">
       <h5>Добавленные сервисы:</h5>
       <h6 *ngIf="order.services.length==0">Нет добавленных сервисов</h6>
       <mat-list>
         <mat-list-item *ngFor="let service of selectedServices">
-          <h6 matLine><button type="button" class="btn btn-primary" (click)="removeService(service.id, order.id)">{{service.name}}</button></h6>
+          <h6 matLine>
+            <button [disabled]="user.role!=='client' || order.status!=='new'"
+                    type="button" class="btn btn-primary" (click)="removeService(service.id, order.id)">{{service.name}}
+            </button>
+            <span *ngIf="order.status !== 'new'"> Статус: </span>
+            <span *ngIf="service.done">услуга выполнена</span>
+            <span *ngIf="!service.done">услуга выполняется </span>
+            <button *ngIf="user.role==='manager' && !service.done" type="button" class="btn btn-primary"
+                    (click)="completeService(service.id, order.id)">Поменять статус на "услуга выполнена"</button>
+          </h6>
         </mat-list-item>
       </mat-list>
     </div>
-    <div *ngIf="user && user.role==='client' && order && order.services">
+    <div *ngIf="user && order && order.services && order.status=='new' && user.role==='client'">
       <h5>Добавить сервис из доступных:</h5>
       <h6 *ngIf="laundry && laundry.services.length==0">Нет доступных сервисов</h6>
       <mat-list *ngIf="laundry">
@@ -26,12 +35,12 @@
         </mat-list-item>
       </mat-list>
     </div>
-    <div *ngIf="!loadingProfile">
+    <div *ngIf="!loadingProfile && order && user.role!=='administrator'">
       <h5>Управление заказом</h5>
-      <button type="button" class="btn btn-primary" *ngIf="user.role=='client'" (click)="cancelOrder()">Отменить заказ</button>
-      <button type="button" class="btn btn-primary" *ngIf="user.role=='client'" (click)="passOrder()">Закрыть заказ</button>
-      <button type="button" class="btn btn-primary" *ngIf="user.role=='manager'" (click)="progressOrder()">Активировать работу заказа</button>
-      <button type="button" class="btn btn-primary" *ngIf="user.role=='manager'" (click)="finishOrder()">Завершить заказ</button>
+      <button [disabled]="order.status!=='new'" type="button" class="btn btn-primary" *ngIf="user.role=='client'" (click)="cancelOrder()">Отменить заказ</button>
+      <button [disabled]="order.status!=='finished'" type="button" class="btn btn-primary" *ngIf="user.role=='client'" (click)="passOrder()">Закрыть заказ</button>
+      <button [disabled]="order.status!=='new'" type="button" class="btn btn-primary" *ngIf="user.role=='manager'" (click)="progressOrder()">Активировать работу заказа</button>
+      <button [disabled]="order.status!=='iN_PROGRESS'" type="button" class="btn btn-primary" *ngIf="user.role=='manager'" (click)="finishOrder()">Завершить заказ</button>
     </div>
   </div>
 </div>

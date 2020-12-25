@@ -101,8 +101,7 @@ export class OrderComponent implements OnInit {
     if (this.user && this.user.role === Role.Client && this.order.status === 'new'){
       this.ordersService.cancelOrder(this.order.id)
         .subscribe(resp => {
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/orders';
-          this.router.navigateByUrl(returnUrl);
+          window.location.reload();
         }, error => this.errMess = error);
     }
   }
@@ -130,5 +129,11 @@ export class OrderComponent implements OnInit {
           this.order.status = 'passed';
         }, error => this.errMess = error);
     }
+  }
+  completeService(serviceId, orderId){
+    this.ordersService.completeService(serviceId, orderId)
+      .subscribe(resp => {
+        window.location.reload();
+      }, error => this.errMess = error);
   }
 }
