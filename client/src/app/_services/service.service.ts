@@ -9,8 +9,12 @@ import {Observable} from 'rxjs';
 })
 export class ServiceService {
   constructor(private http: HttpClient) { }
-  addService(service: Service){
+  addService(title: string, price: number){
+    let service = new Service();
+    service.title = title;
+    service.price = price;
     const serviceMap = new Map(Object.entries(service));
+    console.log(serviceMap);
     return this.http.post(`${environment.apiUrl}/service/add`, serviceMap);
   }
   enableService(serviceId, laundryId){
