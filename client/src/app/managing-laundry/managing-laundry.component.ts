@@ -23,6 +23,7 @@ export class ManagingLaundryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
+    this.availableServices = new Set<Service>();
     this.profileService.getProfile()
       .subscribe(profile => {
         this.me = profile;
@@ -32,11 +33,11 @@ export class ManagingLaundryComponent implements OnInit {
             this.services = this.laundry.services;
             this.serviceService.getAll()
               .subscribe(allServices => {
+                console.log(allServices);
                 allServices.forEach(service => {
-                  let idx = this.services.findIndex((item, index, array) => {
+                  if (this.services.findIndex((item, index, array) => {
                     return item.service.id === service.id;
-                  });
-                  if (idx === -1){
+                  }) === -1){
                     this.availableServices.add(service);
                   }
                 });
@@ -56,7 +57,7 @@ export class ManagingLaundryComponent implements OnInit {
   enableService(serviceId, laundryId){
     this.serviceService.enableService(serviceId, laundryId)
       .subscribe(resp => {
-        return;
+        window.location.reload();
       }, error => this.errMess = error);
   }
 }
