@@ -61,6 +61,9 @@ export class OrderComponent implements OnInit {
         }, error => this.errMess = error);
   }
   removeService(serviceId, orderId){
+    if (this.order.status !== 'new') {
+      return;
+    }
     this.ordersService.removeService(serviceId, orderId)
       .subscribe(service => {
         let elForRemove = Array.from(this.selectedServices)[Array.from(this.selectedServices).findIndex((item) => {
@@ -74,6 +77,9 @@ export class OrderComponent implements OnInit {
       });
   }
   addService(serviceId, orderId) {
+    if (this.order.status !== 'new') {
+      return;
+    }
     this.ordersService.addService(serviceId, orderId)
       .subscribe(service => {
         let el = Array.from(this.availableServices)[Array.from(this.availableServices).findIndex((item) => {

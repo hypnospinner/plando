@@ -51,7 +51,12 @@ export class ManagingLaundryComponent implements OnInit {
         this.loadingOrders = false;
       }, error => this.errMess = error);
     this.loadingServices = true;
-
   }
 
+  enableService(serviceId, laundryId){
+    this.serviceService.enableService(serviceId, laundryId)
+      .subscribe(resp => {
+        return;
+      }, error => this.errMess = error);
+  }
 }

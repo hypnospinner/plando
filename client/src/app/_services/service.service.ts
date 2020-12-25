@@ -11,10 +11,10 @@ export class ServiceService {
   constructor(private http: HttpClient) { }
   addService(service: Service){
     const serviceMap = new Map(Object.entries(service));
-    this.http.post(`${environment.apiUrl}/service/add`, serviceMap);
+    return this.http.post(`${environment.apiUrl}/service/add`, serviceMap);
   }
   enableService(serviceId, laundryId){
-    this.http.post(`${environment.apiUrl}/service/enable`, {serviceId, laundryId});
+    return this.http.post(`${environment.apiUrl}/service/enable`, {serviceId, laundryId});
   }
   getAll(): Observable<Service[]> {
     return this.http.get<Service[]>(`${environment.apiUrl}/services`);
