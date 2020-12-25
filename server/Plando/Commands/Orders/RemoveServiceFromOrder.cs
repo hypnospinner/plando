@@ -59,7 +59,7 @@ namespace Plando.Commands.Orders
                 throw BusinessLogicException($"Cannot remove service from order {command.OrderId} as it has been put in progress");
 
             var serviceAddedEvent = orderCreatedEvent.ServiceAddedEvents
-                .SingleOrDefault(x => x.ServiceId == command.ServiceId);
+                .SingleOrDefault(x => x.ServiceId == command.ServiceId && x.ServiceRemovedEvent is null);
 
             if (serviceAddedEvent.ServiceRemovedEvent is not null)
                 throw BusinessLogicException($"Cannot remove service {command.ServiceId} as it has been already removed");
@@ -67,10 +67,11 @@ namespace Plando.Commands.Orders
             if (serviceAddedEvent.ServiceCompletedEvent is not null)
                 throw BusinessLogicException($"Cannot remove service {command.ServiceId} as it has been already completed");
 
-            var serviceRemovedEvent = new ServiceRemovedEvent { 
+            var serviceRemovedEvent = new ServiceRemovedEvent
+            {
                 ServiceAddedEventId = serviceAddedEvent.Id,
                 OrderId = command.OrderId,
-                ServiceId = command.ServiceId 
+                ServiceId = command.ServiceId
             };
 
             _context.ServiceRemovedEvents.Add(serviceRemovedEvent);

@@ -42,6 +42,9 @@ namespace Plando.Commands.Orders
                     .ThenInclude(x => x.Services)
                 .SingleOrDefaultAsync(x => x.Id == command.OrderId);
 
+            if (orderCreatedEvent is null)
+                throw BusinessLogicException($"Order {command.OrderId} does not exist");
+
             if (orderCreatedEvent.ClientId != command.ClientId &&
                 await _context.Identities.AnyAsync(x => x.Role == UserRole.Administrator && x.UserId == command.ClientId))
                 throw BusinessLogicException($"Client {command.ClientId} cannot add service to order {command.OrderId}");
