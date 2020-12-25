@@ -10,12 +10,7 @@ import {Observable} from 'rxjs';
 export class ServiceService {
   constructor(private http: HttpClient) { }
   addService(title: string, price: number){
-    let service = new Service();
-    service.title = title;
-    service.price = price;
-    const serviceMap = new Map(Object.entries(service));
-    console.log(serviceMap);
-    return this.http.post(`${environment.apiUrl}/service/add`, serviceMap);
+    return this.http.post(`${environment.apiUrl}/service/add`, {title, price});
   }
   enableService(serviceId, laundryId){
     return this.http.post(`${environment.apiUrl}/service/enable`, {serviceId, laundryId});

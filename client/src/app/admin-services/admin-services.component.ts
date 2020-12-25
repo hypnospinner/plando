@@ -36,20 +36,21 @@ export class AdminServicesComponent implements OnInit {
     if (this.createServiceForm.invalid) {
       return;
     }
-
     this.loading = true;
     this.serviceService.addService(this.f.title.value, this.f.price.value)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          // get return url from query parameters or default to home page
+      .subscribe( resp => {
+          let added = new Service();
+          added.title = this.f.title.value;
+          added.price = this.f.price.value;
+          this.services.push(added);
           this.loading = false;
-          // window.location.reload();
-        },
-        error: error => {
+          this.createServiceForm.reset();
+          Object.keys(this.createServiceForm.controls).forEach(key => {
+            this.createServiceForm.get(key).setErrors(null) ;
+          });
+        }, error => {
           this.errMess = error;
           this.loading = false;
-        }
       });
   }
 }
